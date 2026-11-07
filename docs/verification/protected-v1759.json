@@ -1,0 +1,61 @@
+{
+  "version": "2026.4.1p1",
+  "observed_run": "guarded-native-game-tun-v1759",
+  "game_archive_sha256": "77c4969330e8ef2f4e52dfe866cea4a29d0c40ad3fe93af1cac603cf1291df72",
+  "root_source_sha256": "eb035e1babf1cc2901904fa27424cb061036d318280a3da6018eedcd20eb3a01",
+  "observation": {
+    "stop": "native-world-ready",
+    "launcher_code": 301,
+    "launcher_exit": 0,
+    "official_log_present": true,
+    "null_client_fallback": false,
+    "game_exec_observed": true,
+    "native_handoff_observed": true,
+    "native_renderer_observed": true,
+    "native_preserved": true,
+    "peak_owned_processes": 12,
+    "peak_rss": 6580977664,
+    "fork_permits_used": 23,
+    "anti_cheat_session_success": 1,
+    "world_entry": 1,
+    "native_renderer": 1,
+    "integrity_violation": 0,
+    "room_server_timeout": 0
+  },
+  "tested_artifacts": {
+    "backups/root-abi-v1756/fli-fexcore-process-probe": "4ec74897a255c5edaef21b67f97e7c639b86d5ef13b66e04c4fbf40e402a6602",
+    "backups/root-abi-v1756/libFEXCore.dylib": "4e8f0c83d94bd1d4ba727457c454f342ade8f4f4d76a114fde06e5b2e958329a",
+    "build/eac-only/libfli_native_trace-v1730.so": "61aa32512d2eda55c1eed12a4f226e52891cef892c77b92ac7f6e3dd63820e9b",
+    "tools/native-auto-window-v1578.json": "2bb217076de05ea9236904c0825c6f728a772c9471937b2a77f1b14196343a33",
+    "artifacts/vrchat-headless-loader-v1/start_protected_game.exe": "46d2552552ac95c436389a2c9f1aba6fda37ab998acf9b9ee026f3262dd70c53"
+  },
+  "hardware": "Apple M4 Pro",
+  "world": "Chinese Bar",
+  "network": "TUN for room UDP",
+  "scope": "Previously observed on the locked local baseline; no claim for rebuilt binaries",
+  "standalone_replay": {
+    "date": "2026-11-07",
+    "baseline": "protected-v1759",
+    "launcher_commit": "a2d4753fc158be54e79123317460ef6ee1143116",
+    "launcher_sha256": "a933c357af31afc8d062e7135cb75e69028ca26066647e658064d2ffeeab00ec",
+    "local_baseline_only": true,
+    "launch_from_outside_repo": true,
+    "world": "Chinese Bar",
+    "room_udp_route": "TUN",
+    "observation": {
+      "stop": "world-ready",
+      "launcher_code": 301,
+      "launcher_exit": 0,
+      "world_ready": true,
+      "native_preserved": true,
+      "fork_permits_used": 23,
+      "cached_login_succeeded": true,
+      "eac_session_succeeded": true,
+      "renderer": "Apple M4 Pro",
+      "winemetal_loaded": true,
+      "integrity_violations": 0,
+      "server_timeouts": 0,
+      "post_launch_observation_seconds": 36
+    }
+  }
+}

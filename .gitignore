@@ -1,0 +1,12 @@
+.DS_Store
+.local/
+__pycache__/
+*.pyc
+/build/
+/bottles/
+/logs/
+/tmp/
+
+/artifacts
+/toolchains
+/runtime

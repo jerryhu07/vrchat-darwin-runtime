@@ -1,0 +1,11 @@
+{
+  "scope": "Compilation only; no Windows runtime control executed",
+  "compiled": 18,
+  "cases_manifest": {
+    "path": "tests/runtime-cases.json",
+    "sha256": "942093a3d24fd6da99cd8d32870ec15bade39caea8eae53328777157160ff543"
+  },
+  "profile_sha256": "56d5cb3743a4a109cbea5d2abe5576d359d190e35ee64d0a888566709fd0b1ff",
+  "libc_sha256": "40e82c7fafb0bd25f5dd599b074e26694df2e6081426f3a740ff54126fd739fb",
+  "runtime_executed": false
+}

@@ -1,0 +1,98 @@
+{
+  "flags": [
+    [
+      "inline-constants-owner.c",
+      "late-stack-flags-0-v1455",
+      512
+    ],
+    [
+      "readonly-flags-owner.c",
+      "late-stack-flags-1-v1455",
+      512
+    ],
+    [
+      "control-flags-owner.c",
+      "late-stack-flags-2-v1455",
+      1024
+    ],
+    [
+      "exception-flags-traps-owner.c",
+      "late-stack-flags-3-v1455",
+      1548
+    ],
+    [
+      "exception-flags-dedup-owner.c",
+      "late-stack-flags-4-v1455",
+      520
+    ]
+  ],
+  "controls": [
+    [
+      "rsp-checkpoint-owner.c",
+      [],
+      "RSP_CHECKPOINT seen=150 expected=150 bad=0"
+    ],
+    [
+      "rsp-recovery-owner.c",
+      [],
+      "RSP_RECOVERY seen=400 expected=400 bad=0"
+    ],
+    [
+      "volatile-metadata-owner.c",
+      [],
+      "VOLATILE_METADATA_RESULT accesses=12 rounds=10000 failures=0"
+    ],
+    [
+      "stack-prologue-owner.c",
+      [],
+      "INIT_ONCE_FAULT_HANDLED"
+    ],
+    [
+      "ret-flags-owner.c",
+      [],
+      "RET_FLAGS_RESULT seen=256 expected=256 bad=0"
+    ],
+    [
+      "ret-fetch-invalidated-owner.c",
+      [],
+      "RET_FETCH_RESULT seen=12 expected=12 bad=0"
+    ],
+    [
+      "scalar-fpr-owner.c",
+      [],
+      "SCALAR_FPR checks=1313 failures=0"
+    ],
+    [
+      "callret-stress-owner.c",
+      [],
+      "CALLRET_STRESS_RESULT bad=0"
+    ],
+    [
+      "jit-callback-lifetime-owner.c",
+      [],
+      "JIT_CALLBACK_LIFETIME_RESULT completed=12 expected=12 errors=0"
+    ],
+    [
+      "callret-async-signal-owner.c",
+      [],
+      "FORK_CONTROL_RESULT 11/11"
+    ],
+    [
+      "memory-owner.c",
+      [
+        "shared-smc"
+      ],
+      "SHARED_SMC_RESULT 9/9"
+    ],
+    [
+      "native-nonvolatile-owner.c",
+      [],
+      "NATIVE_NONVOLATILE_RESULT checks=896 expected=896 failures=0 callbacks=384 expected=384"
+    ],
+    [
+      "call-flags-owner.c",
+      [],
+      "CALL_FLAGS_RESULT seen=1024 expected=1024 core_bad=0 stack_bad=0"
+    ]
+  ]
+}

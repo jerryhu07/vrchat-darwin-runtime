@@ -1,0 +1,90 @@
+{
+  "source_commit": "d18340e115e7c77a90a481c9efeca94448845f9c",
+  "runtime": "v1571",
+  "launch_profile": "native-auto-window-v1578",
+  "user_accepted": true,
+  "window_policy": "Unity/Wine/DXMT resize path; no fixed width, height or fullscreen override",
+  "host_features": "enableflagm,enableflagm2,disableafp,enablelrcpc,enablelrcpc2",
+  "launch_args": [
+    "--fps=120"
+  ],
+  "components": {
+    "fex_arm64ec": {
+      "sha256": "398505f47e0134ed4872afe95a9f2fed77b93d111fc39809c6a7d920ab2d8dea",
+      "bytes": 5177344
+    },
+    "wine_ntdll_pe": {
+      "sha256": "33229f21fbedfd61e663f58c236a90bc7b9202365114f2a99ad589b0d781713e",
+      "bytes": 7536640
+    },
+    "wine_ntdll_unix": {
+      "sha256": "fcfe9a699dd504c2aa3db813181bf10fa4814f2aedcdb821fc4ef3a2f4e0dafc",
+      "bytes": 653136
+    },
+    "wine_server": {
+      "sha256": "1d350661d01493bdb7eb701f817e40ba3b40db8fa13b0bc3fe25c02dc55f1f96",
+      "bytes": 848296
+    },
+    "wine_frontend": {
+      "sha256": "faad801b87a501b82ad584948fc0b636f5a317ad48643fd630c64cfad7f5105a",
+      "bytes": 35776
+    },
+    "linux_carrier": {
+      "sha256": "1f6d3fb1a88364322e70d0f5b51b556157ee1e882e06d5204330cb6de573d852",
+      "bytes": 804112
+    },
+    "linux_bridge": {
+      "sha256": "955ca21fd4d840825cf88dc9e95ce50f33054b80730f1d36f60f79689ead0e73",
+      "bytes": 286256
+    },
+    "elf_transport": {
+      "sha256": "a693463cf59d54ec02aba3d4b5b733e0bbbe11683d7f8b16b8ebdd9951de3677",
+      "bytes": 49664
+    },
+    "fex_unix_service": {
+      "sha256": "99b502c60b9032d3dc1d87052f39a7820e052464c0d4b771da6f45f08804fc04",
+      "bytes": 56000
+    },
+    "d3d11": {
+      "sha256": "78b3c025fad248e7b336c8d53562128ea8676bcba9a0bbef830206d4e8c2b0d5",
+      "bytes": 5156864
+    },
+    "d3d10core": {
+      "sha256": "9561721184744480024dfa2d2db64bacf2c680bbad20776465ddcd6980fd1cec",
+      "bytes": 1114112
+    },
+    "dxgi": {
+      "sha256": "292d3cf8ced1add00196f60ea8dc070e902dbb3cebea33baff4d5bc50cd0e5d8",
+      "bytes": 1536000
+    },
+    "winemetal": {
+      "sha256": "1a6090d798b0f8f770c868ee23d1729c1541bb5eaa86b29dedf838a39cade3fd",
+      "bytes": 126976
+    }
+  },
+  "fex_build": {
+    "revision": "b1ceef3242ab70f22054f120e3f9997582c4bde2",
+    "patches": {
+      "repro/patches/0001-share-checkpoint-semantics.patch": "faec648a15e6693c960fd987430611efe5a50b2c221ac5d92ec854f9188cbb06",
+      "repro/patches/0002-honor-compiler-memory-metadata.patch": "237cfb58a1afe353d2f08c868da964fc5bf393a13beb6114b3d309036520bb46",
+      "repro/patches/0003-relax-certified-vector-loads-and-stores.patch": "bf93baeeb018d7ebb1384be6d6f5b2861e0b6710118da2ac4bf89f4c3c9f214a",
+      "repro/experiments/0002-publish-hint-at-native-target.patch": "cc3b355eeb39e24877194b1f04c6141f9ebc6cb9ba8ed5c696e3d85c144de6e8",
+      "repro/experiments/0003-pc-checkpoint-metadata.patch": "17e4bf3827b6eda1db5701ae8181748510fb9c82579a4fe8d8e1ff4f819fff19",
+      "repro/experiments/0009-fold-native-return-frame-address.patch": "93c7624491632fff7b03d0634efb95757927c2f4a4d101e52c08032106b43273",
+      "repro/experiments/0015-use-native-nonvolatile-contract.patch": "75cff092325d6f0ace176aa4cab54822bc2e5d1b6227ecb208a195552ce11fb5",
+      "repro/experiments/0016-recognize-flag-preserving-exits.patch": "9322e2558775dacca88fa402fe8ccb9536e2d30e63a77ee592ad8bbc43ef8093"
+    },
+    "consumer_audit": "7fce4669ed664fd2e109389e08b42132a55aa00396dba7e155beb4d9e1afa8a7",
+    "native_fex_sha256": "398505f47e0134ed4872afe95a9f2fed77b93d111fc39809c6a7d920ab2d8dea",
+    "build_scope": "Pinned local incremental build; not a clean-machine source build"
+  },
+  "verification": {
+    "owned_controls": 16,
+    "controls_passed": true,
+    "full_x86_exception_fidelity": false,
+    "clean_source_build": false,
+    "second_machine": false,
+    "release_ready": false
+  },
+  "source_date_epoch": 1792510433
+}

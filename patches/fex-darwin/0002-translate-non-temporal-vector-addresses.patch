@@ -1,0 +1,69 @@
+--- a/FEXCore/Source/Interface/Core/JIT/JITClass.h
++++ b/FEXCore/Source/Interface/Core/JIT/JITClass.h
+@@ -327,6 +327,9 @@
+   ARMEmitter::Register ApplyGuestMemoryAddressBias(ARMEmitter::Register Address);
+ 
+   [[nodiscard]]
++  ARMEmitter::Register ApplyGuestMemoryAddressBias(ARMEmitter::Register Base, int32_t& Offset);
++
++  [[nodiscard]]
+   bool IsGuestMemoryAddressTranslationEnabled() const;
+ 
+   // NOTE: Will use TMP1 as a way to encode immediates that happen to fall outside
+--- a/FEXCore/Source/Interface/Core/JIT/MemoryOps.cpp
++++ b/FEXCore/Source/Interface/Core/JIT/MemoryOps.cpp
+@@ -753,6 +753,21 @@
+   ldr<ARMEmitter::IndexType::POST>(TMP3, ARMEmitter::Reg::rsp, 16);
+   msr(ARMEmitter::SystemRegister::NZCV, TMP3);
+   return TMP2;
++}
++
++ARMEmitter::Register Arm64JITCore::ApplyGuestMemoryAddressBias(ARMEmitter::Register Base, int32_t& Offset) {
++  if (!IsGuestMemoryAddressTranslationEnabled()) {
++    return Base;
++  }
++
++  // Translate the effective guest address, which may be in a different region than Base.
++  if (Offset != 0) {
++    LoadConstant(ARMEmitter::Size::i64Bit, TMP1, Offset);
++    add(ARMEmitter::Size::i64Bit, TMP1, Base, TMP1);
++    Base = TMP1;
++    Offset = 0;
++  }
++  return ApplyGuestMemoryAddressBias(Base);
+ }
+ 
+ bool Arm64JITCore::IsGuestMemoryAddressTranslationEnabled() const {
+@@ -2881,8 +2896,8 @@
+   const auto Is128Bit = OpSize == IR::OpSize::i128Bit;
+ 
+   const auto Value = GetVReg(Op->Value);
+-  const auto MemReg = GetReg(Op->Addr);
+-  const auto Offset = Op->Offset;
++  int32_t Offset = Op->Offset;
++  const auto MemReg = ApplyGuestMemoryAddressBias(GetReg(Op->Addr), Offset);
+ 
+   if (Is256Bit) {
+     const auto GoverningPredicate = PRED_TMP_32B.Zeroing();
+@@ -2908,8 +2923,8 @@
+   const auto ValueLow = GetVReg(Op->ValueLow);
+   const auto ValueHigh = GetVReg(Op->ValueHigh);
+ 
+-  const auto MemReg = GetReg(Op->Addr);
+-  const auto Offset = Op->Offset;
++  int32_t Offset = Op->Offset;
++  const auto MemReg = ApplyGuestMemoryAddressBias(GetReg(Op->Addr), Offset);
+ 
+   stnp(ValueLow.Q(), ValueHigh.Q(), MemReg, Offset);
+ }
+@@ -2923,8 +2938,8 @@
+   const auto Is128Bit = OpSize == IR::OpSize::i128Bit;
+ 
+   const auto Dst = GetVReg(Node);
+-  const auto MemReg = GetReg(Op->Addr);
+-  const auto Offset = Op->Offset;
++  int32_t Offset = Op->Offset;
++  const auto MemReg = ApplyGuestMemoryAddressBias(GetReg(Op->Addr), Offset);
+ 
+   if (Is256Bit) {
+     const auto GoverningPredicate = PRED_TMP_32B.Zeroing();

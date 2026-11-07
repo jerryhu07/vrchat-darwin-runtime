@@ -1,0 +1,17 @@
+{
+  "component": "fex-arm64ec",
+  "source_lock": {
+    "path": "sources.lock.json",
+    "sha256": "0ccec1b3a6ed2535eb2963bc0fa3c2ed4104dcff18caf6b4738da8d63467f09b"
+  },
+  "artifact": ".local/build/fex-arm64ec/Bin/libarm64ecfex.dll",
+  "sha256": "a18b177cefb93dbb40040612078e4108f6103c7727f07c3276dce9a99fd00df3",
+  "project_sources": {
+    "jit/alias-fetch.cpp": "b752751769a80e0b40f85b9003deaba16fbc56e70ee8642b6f9e33bc74d85d5f",
+    "jit/jit-writable-alias.h": "5c11c061c8fbb90244049db7b9b587930f5e670407f8463dd502a02ab103ca0b",
+    "jit/memory-dispatch.cpp": "f222267b57a178ba9e165f66fd2b9301e7d8fd83dfe7f9834fb269225ab64401",
+    "jit/scoped-jit-patch.h": "cb621b5cdc17a6b756f9f1e2eef2c484a1a4080e16b4199b96eebdd53485215f",
+    "platform/runtime-abi.h": "03d845b1c5357b9e88f550a1da6a63ba689b4ec17ea78f33fd791a5e7c5cad3a"
+  },
+  "scope": "Component source build; not a complete runtime validation"
+}

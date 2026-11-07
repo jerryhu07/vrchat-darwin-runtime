@@ -1,0 +1,25 @@
+--- a/tools/winebuild/spec32.c
++++ b/tools/winebuild/spec32.c
+@@ -461,8 +461,9 @@
+     }
+     else
+     {
+-        output( "\t.long 0\n" );  /* AddressOfNames */
+-        output( "\t.long 0\n" );  /* AddressOfNameOrdinals */
++        /* Empty arrays still need mapped RVAs for LLVM's COFF readers. */
++        output_rva( ".L__wine_spec_exp_names" );  /* AddressOfNames, zero entries */
++        output_rva( ".L__wine_spec_exp_names" );  /* AddressOfNameOrdinals, zero entries */
+     }
+ 
+     /* output the function pointers */
+@@ -984,8 +985,8 @@
+     }
+     else
+     {
+-        put_dword( 0 );   /* AddressOfNames */
+-        put_dword( 0 );   /* AddressOfNameOrdinals */
++        put_dword( str_rva );   /* AddressOfNames, zero entries */
++        put_dword( str_rva );   /* AddressOfNameOrdinals, zero entries */
+     }
+ 
+     /* functions */

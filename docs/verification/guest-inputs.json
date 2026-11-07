@@ -1,0 +1,12 @@
+{
+  "source_lock": {
+    "path": "guest-dependencies.lock.json",
+    "sha256": "57045176d3b26d705fd295325c64ec95452ad57d9067a14ae2f9cfc6e42cd9b5"
+  },
+  "scope": "Pinned guest inputs; no game/EAC files or Wine prefix staged",
+  "runtime_validated": false,
+  "external_proton_inputs": [
+    "opt/regression-wine-entry/wine64",
+    "opt/wine-devel/bin/wine"
+  ]
+}

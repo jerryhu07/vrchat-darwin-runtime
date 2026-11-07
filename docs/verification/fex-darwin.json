@@ -1,0 +1,11 @@
+{
+  "component": "fex-darwin",
+  "artifact": ".local/build/fex-darwin/FEXCore/Source/libFEXCore.dylib",
+  "sha256": "64e52224e843c01481f3faba245d1d386abb10bfb456087462f578f99b59240b",
+  "project_sources": {},
+  "scope": "Component source build; not a complete runtime validation",
+  "source_lock": {
+    "path": "sources.lock.json",
+    "sha256": "0ccec1b3a6ed2535eb2963bc0fa3c2ed4104dcff18caf6b4738da8d63467f09b"
+  }
+}

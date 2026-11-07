@@ -1,0 +1,64 @@
+--- a/dlls/winemac.drv/window.c
++++ b/dlls/winemac.drv/window.c
+@@ -184,6 +184,7 @@
+  *
+  * Lock and return the data structure associated with a window.
+  */
++__attribute__((visibility("default")))
+ struct macdrv_win_data *get_win_data(HWND hwnd)
+ {
+     struct macdrv_win_data *data;
+@@ -202,6 +203,7 @@
+  *
+  * Release the data returned by get_win_data.
+  */
++__attribute__((visibility("default")))
+ void release_win_data(struct macdrv_win_data *data)
+ {
+     if (data) pthread_mutex_unlock(&win_data_mutex);
+--- a/dlls/winemac.drv/cocoa_window.m
++++ b/dlls/winemac.drv/cocoa_window.m
+@@ -3613,6 +3613,7 @@
+ }
+ }
+ 
++__attribute__((visibility("default")))
+ WineMetalView *macdrv_view_create_metal_view(WineContentView *view, id<MTLDevice> device)
+ {
+     __block WineMetalView *metalView;
+@@ -3624,6 +3625,7 @@
+     return metalView;
+ }
+ 
++__attribute__((visibility("default")))
+ CAMetalLayer *macdrv_view_get_metal_layer(WineMetalView *view)
+ {
+     __block CAMetalLayer* layer;
+@@ -3635,6 +3637,7 @@
+     return layer;
+ }
+ 
++__attribute__((visibility("default")))
+ void macdrv_view_release_metal_view(WineMetalView *view)
+ {
+     OnMainThread(^{
+@@ -3787,16 +3790,19 @@
+     return [[MetalViewSwapChain alloc] initWithView:view];
+ }
+ 
++__attribute__((visibility("default")))
+ id<WineMetalSwapChain> macdrv_create_offscreen_swapchain(void* hwnd, CGRect bounds)
+ {
+     return [[CAContextSwapChain alloc] initWithHwnd:hwnd bounds:bounds];
+ }
+ 
++__attribute__((visibility("default")))
+ CAMetalLayer *macdrv_swapchain_get_layer(id<WineMetalSwapChain> swapchain)
+ {
+     return [swapchain layer];
+ }
+ 
++__attribute__((visibility("default")))
+ void macdrv_destroy_swapchain(id<WineMetalSwapChain> swapchain)
+ {
+     [swapchain release];

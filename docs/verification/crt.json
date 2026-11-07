@@ -1,0 +1,6 @@
+{
+  "scope": "Fixed-register ARM64EC CRT and C++ runtimes built from locked sources; not a runtime regression",
+  "source_lock": "toolchain.lock.json",
+  "command": "sh tools/build-crt.sh arm64ec cxx",
+  "log_sha256": "fa5dd5de35f7852fe968b5762c8644740afa19ea52a5afc90251d888cdfe290f"
+}

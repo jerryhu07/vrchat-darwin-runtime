@@ -1,0 +1,277 @@
+{
+  "fex-arm64ec": {
+    "url": "https://github.com/FEX-Emu/FEX.git",
+    "commit": "1cc4b93e7a71c883ec021b71359f136394dc1f3c",
+    "submodules": [
+      {
+        "path": "Source/Common/cpp-optparse",
+        "url": "https://github.com/Sonicadvance1/cpp-optparse",
+        "commit": "9f94388a339fcbb0bc95c17768eb786c85988f6e",
+        "module": "External/cpp-optparse"
+      },
+      {
+        "path": "External/fmt",
+        "url": "https://github.com/fmtlib/fmt.git",
+        "commit": "407c905e45ad75fc29bf0f9bb7c5c2fd3475976f",
+        "module": "External/fmt"
+      },
+      {
+        "path": "External/xxhash",
+        "url": "https://github.com/Cyan4973/xxHash.git",
+        "commit": "e626a72bc2321cd320e953a0ccf1584cad60f363",
+        "module": "External/xxhash"
+      },
+      {
+        "path": "External/range-v3",
+        "url": "https://github.com/ericniebler/range-v3.git",
+        "commit": "ca1388fb9da8e69314dda222dc7b139ca84e092f",
+        "module": "External/range-v3"
+      },
+      {
+        "path": "External/unordered_dense",
+        "url": "https://github.com/martinus/unordered_dense.git",
+        "commit": "3234af2c03549bc85656bfd3a86993bf1cd8aef1",
+        "module": "External/unordered_dense"
+      },
+      {
+        "path": "External/rpmalloc",
+        "url": "https://github.com/FEX-Emu/rpmalloc.git",
+        "commit": "1d85c246cd827ead6865f4f880d4fef53f2b1864",
+        "module": "External/rpmalloc"
+      }
+    ],
+    "patches": [
+      {
+        "path": "patches/fex-arm64ec/0001-d18340e.patch",
+        "sha256": "97354dcc2b310102ab082ea3b4ad8c2e6fe31c8ca7f8e412298f30db5553466b"
+      }
+    ],
+    "patched_files": {
+      "FEXCore/Source/CMakeLists.txt": "90609d75c3f5a62b764e86c866a6c4115ffebd068a5dd7e75fb571429035d16c",
+      "FEXCore/Source/Interface/Context/Context.h": "464866ec64bba246cc25f0afd4e06494d2b29ae25a49de770dd38691cc6f95b1",
+      "FEXCore/Source/Interface/Core/ArchHelpers/Arm64Emitter.cpp": "d5a9678f4dba76766f8d001b9f7c6eb38ff93b10df727e780fb4b8e9aa78959a",
+      "FEXCore/Source/Interface/Core/ArchHelpers/Arm64Emitter.h": "5b460ab7ecdec6cfc1b3815ddc948864f8c1bc2fd3ba7fe72eeebf3d6d6dc84d",
+      "FEXCore/Source/Interface/Core/CPUBackend.cpp": "b1fc606d7c12ebddc1467070732e17dd185aec164cd2f9cb7907800aa4d8f235",
+      "FEXCore/Source/Interface/Core/CPUBackend.h": "16c2eb18e1ba4b1fef0f4d3b2336cb62dda009c8cfa72971ca59f1d5a917c815",
+      "FEXCore/Source/Interface/Core/CPUID.cpp": "4c316fe456248d761b7c66264801a95170b7cd9a520aec6429a328346af1fcbc",
+      "FEXCore/Source/Interface/Core/CodeCache.cpp": "f50bd1726756f0de0dae953f7b8a00b469ccf2644252f0c67835cd50bbea0641",
+      "FEXCore/Source/Interface/Core/Core.cpp": "c9d834386a81fa8a4212ffac41d803abfaccdeb736c3854c4aadb93a3fdde4c0",
+      "FEXCore/Source/Interface/Core/Dispatcher/Dispatcher.cpp": "d85651049ca94c96e61b9bb9fef5519903292f8ae04ddb9729c9f1d460c0a3e2",
+      "FEXCore/Source/Interface/Core/Frontend.cpp": "0ce7803ab061220bc80abb4fd566c26378b2e3da268274c8ca01af4eb90037d0",
+      "FEXCore/Source/Interface/Core/JIT/BranchOps.cpp": "f44b60d2d0437fdc74bc768a691025bb7a609f6725f14084548d22f18fe663df",
+      "FEXCore/Source/Interface/Core/JIT/DebugData.h": "d5d04b731fae0b2df0ebc4a449462bb13fb1d1340a52bca09e5c9e6358d0c515",
+      "FEXCore/Source/Interface/Core/JIT/JIT.cpp": "b0ff4ee0da1b983e3a0a7d700d6642d25e59634d99e5576f824f40649b2ac4ad",
+      "FEXCore/Source/Interface/Core/JIT/JITClass.h": "74141bc725deba31886fadd3726f5c49f4d954fb84ca65b48259084680f14fbb",
+      "FEXCore/Source/Interface/Core/JIT/MemoryOps.cpp": "43f30cc3fde631c757d3176239d0e264dbdad09f9bd9d3380eec0ad415a3b896",
+      "FEXCore/Source/Interface/Core/JIT/MiscOps.cpp": "4846c58bc7fb356ed8587224a80c959d5455af0073c1d81a5c4bac54a9bf7c9c",
+      "FEXCore/Source/Interface/Core/LookupCache.cpp": "7f96503ecf7d987f41d050c7296f7c877ee971bd50062a035baede8717d3c98b",
+      "FEXCore/Source/Interface/Core/LookupCache.h": "029c1448f3de8d1e88ce9b723c43a1a759582c0f642e2b21fa3da64c09432bd7",
+      "FEXCore/Source/Interface/Core/OpcodeDispatcher.cpp": "b121837fae72623add0ccf63a3ff33fea701bb2d5fe7aba68989dca5486ebb27",
+      "FEXCore/Source/Interface/Core/OpcodeDispatcher.h": "ff806a6e076378e2a147a389dc34143d0e2873ca6383ab4ef5f755f6773cc43d",
+      "FEXCore/Source/Interface/IR/IR.json": "f308fa50400922c44a9cc0ebcd9ae44cd13468f16cf6779190989a42bc364c01",
+      "FEXCore/Source/Interface/IR/Passes/RedundantFlagCalculationElimination.cpp": "5419b1ebba9066cd17aca5cca5beba883bec7a544fc6e4adc25e21a3db09d9b3",
+      "FEXCore/Source/Utils/ArchHelpers/Arm64.cpp": "3bb54aabee60e42a9f1dac455e9f0550b838da6caef43ae27f00a155f5c89529",
+      "FEXCore/include/FEXCore/Core/CodeCache.h": "d657a0ba5d65cb0c8b0f9ddc6ce0f7aed43e3d5b54f1ef1d19033dfff4061a42",
+      "FEXCore/include/FEXCore/Core/Context.h": "49a7e81339e3a00e1acb6e3e7fd8912b664c44ef5cfcb46b116fafbce042f6dd",
+      "FEXCore/include/FEXCore/Core/CoreState.h": "652f18312e9ea5be11b1fc0ce3992d8c83d37edb92f01f36272d2b5fdef4d9b6",
+      "FEXCore/include/FEXCore/Utils/AllocatorHooks.h": "cf0731d7e6b271b1e40ab714c4a39656f8b4fb8ea32fd4e2a6f2eebfb9f5d49d",
+      "Source/Tools/FEXOfflineCompiler/Main.cpp": "8baee373c9e55cf51bb529fe2731b67e83874a12e8ca4963ebd2f030ddaacce7",
+      "Source/Windows/ARM64EC/CMakeLists.txt": "5326f381e8af70226fb50a8d112f0ceffc4dde56102ddfa28f3b154517c31201",
+      "Source/Windows/ARM64EC/Module.S": "cfe832afbce8139690c7c2689ed9a3c92640354be00857d5db286c4d34c8d92c",
+      "Source/Windows/ARM64EC/Module.cpp": "ea6608f7e64a81b7517cc3fe87e45b696b97d1d29e432dc368f8f40c1e6cfe28",
+      "Source/Windows/ARM64EC/libarm64ecfex.def": "d945107767746f203bf2ee4c6f4cff1c1d8c4b907afd1656800158c84d4b969d",
+      "Source/Windows/CMakeLists.txt": "747cd7967d7cd32af1e12ac70e9e9ea9d5266fbcd652cf60cc654589e44194c6",
+      "Source/Windows/Common/CMakeLists.txt": "9774cdd6ceac0fad099abf963f6f582e7949e525741ea7c6b58caaed45506654",
+      "Source/Windows/Common/CallRetStack.h": "8f84f249ad0c3f232c4cfe618b7b399f87eb1e4acfdd24fac69cf6c2e42e5705",
+      "Source/Windows/Common/Exception.h": "237958b4c98164994093fb8cf274e5393d0c81d13d975e8f9441fc4c46c52d25",
+      "Source/Windows/Common/ImageTracker.cpp": "61270a036e5691dc92e0494ab4fec806e7ee0aa525a8ae5e643fbdffabad124d",
+      "Source/Windows/Common/ImageTracker.h": "79dc33dd572925690b587245f0d2d75760a15ee62d333b710a7dec62c6d0581b",
+      "Source/Windows/Common/InvalidationTracker.cpp": "5ef19a8a97f2b97b882ea8a55c7d7d3cf7a0e57391de18d3d60c1b7b0abd2895",
+      "Source/Windows/Common/InvalidationTracker.h": "c9d1ab3b81a17721fabf6a0e1b6bf2c5f579be30efc43545258549a03d67d828",
+      "Source/Windows/Common/JITGuardPage.h": "995f7a0ffa8090b93665ddc96d2c82a208036ac32ce907a987381747fd028932",
+      "Source/Windows/Common/Logging.cpp": "f2d9890cc13061cf8f6b953707486c2b1cec09080b55d94f6e82c0f77f378032",
+      "Source/Windows/Common/Logging.h": "370ffdbe4976d79d83ce0eb922869e21616f2cbcc012804ec4568d59b5bd8629",
+      "Source/Windows/Common/TSOHandlerConfig.h": "2de021865ab5bf99a737d793d18537fba85ca4a9e0f0fa15e53ccdcc6aefb4ca",
+      "Source/Windows/Common/WinAPI/IO.cpp": "818b95e185fa495d1d70a2297d4c43b652e35a95c80493ffbb5d6b6f25f449b1",
+      "Source/Windows/WOW64/BTInterface.h": "b22a526f2022b8aa8dcb67ea65c7c739d12ee44abd3d5b18acdca447f7156b6a",
+      "Source/Windows/WOW64/Module.cpp": "05cef39d787884dcc8d118d32b7ceee9d40893c2ff6ee49e3d40908576b0db52",
+      "Source/Windows/WOW64/libwow64fex.def": "d7219dc160afa32fff6463819b9ae07e8f05997c621da9b348e571370941f43c",
+      "Source/Windows/include/winternl.h": "d4e2597503117553d509b35fc94615608371ad8781c94e1e83da93a752ac0cb9",
+      "Source/Windows/Common/CacheStack.S": "1ac3fc842c8ee36ad2fbf2ec4631dc3f6777dc618d0d3da0715556c98b311430"
+    }
+  },
+  "fex-darwin": {
+    "url": "https://github.com/FEX-Emu/FEX.git",
+    "commit": "a04b0241c2fe3911729842205cd8643981108aad",
+    "submodules": [
+      {
+        "path": "Source/Common/cpp-optparse",
+        "url": "https://github.com/Sonicadvance1/cpp-optparse",
+        "commit": "9f94388a339fcbb0bc95c17768eb786c85988f6e",
+        "module": "External/cpp-optparse"
+      },
+      {
+        "path": "External/fmt",
+        "url": "https://github.com/fmtlib/fmt.git",
+        "commit": "407c905e45ad75fc29bf0f9bb7c5c2fd3475976f",
+        "module": "External/fmt"
+      },
+      {
+        "path": "External/xxhash",
+        "url": "https://github.com/Cyan4973/xxHash.git",
+        "commit": "e626a72bc2321cd320e953a0ccf1584cad60f363",
+        "module": "External/xxhash"
+      },
+      {
+        "path": "External/range-v3",
+        "url": "https://github.com/ericniebler/range-v3.git",
+        "commit": "ca1388fb9da8e69314dda222dc7b139ca84e092f",
+        "module": "External/range-v3"
+      },
+      {
+        "path": "External/unordered_dense",
+        "url": "https://github.com/martinus/unordered_dense.git",
+        "commit": "3234af2c03549bc85656bfd3a86993bf1cd8aef1",
+        "module": "External/unordered_dense"
+      },
+      {
+        "path": "External/rpmalloc",
+        "url": "https://github.com/FEX-Emu/rpmalloc.git",
+        "commit": "1f6fb494f2a4237c35494786a3c8f1eba048b217",
+        "module": "External/rpmalloc"
+      }
+    ],
+    "patches": [
+      {
+        "path": "patches/fex-darwin/0001-d18340e.patch",
+        "sha256": "d141eb3e08ba3a840ae5e416c4fdad932b7f534e3bf89bf624c28c44f39be70c"
+      },
+      {
+        "path": "patches/fex-darwin/0002-translate-non-temporal-vector-addresses.patch",
+        "sha256": "9d381df64b73d097415c34e81aa1a03e58653d57e16d5b31d0ad78d2b81e18ce"
+      }
+    ],
+    "patched_files": {
+      "CMakeLists.txt": "89a0cab7edbe95a0c14fdaec9dc2db7d3b786efa42b358002f05b64eab6b9474",
+      "FEXCore/Source/CMakeLists.txt": "70f30744042739c6b82af0fb492cb985da93945624dc5ed0eb5080ad2f843277",
+      "FEXCore/Source/Interface/Context/Context.cpp": "083af8d36ee51e1698b1ece943b7631d521d4b45a8fc253254e5867206eda430",
+      "FEXCore/Source/Interface/Context/Context.h": "c4ba8e2bd05a7127733a49fc13136cb62bc4c0ce326dc665ece27cccb336cfeb",
+      "FEXCore/Source/Interface/Core/CPUBackend.cpp": "20000e424876f2bd476789e5ce49fb7e2a452d3fa15d7a5035390a7db69dd1cb",
+      "FEXCore/Source/Interface/Core/CodeCache.cpp": "380241f9555815ae0ecd32596260dfed59820bbdb414383b1be606cd5e417f11",
+      "FEXCore/Source/Interface/Core/Core.cpp": "4432609782e87c05ca2be9dbfcd49e13c862b73a44ce4240052d13d999a58742",
+      "FEXCore/Source/Interface/Core/Dispatcher/Dispatcher.cpp": "269e86141922e5bcaaaeacbaa8f98924ece78172efbd71aa1a164c0a72092efb",
+      "FEXCore/Source/Interface/Core/Frontend.cpp": "14343ca2561be969dca9f892401a872a23478659ff80f37edc6aa37ec8a2f981",
+      "FEXCore/Source/Interface/Core/Frontend.h": "376b35f8e1a4653db8789baf8ab8606c100991baebb2fad0544c599f7a2200c5",
+      "FEXCore/Source/Interface/Core/Interpreter/Fallbacks/F80Fallbacks.h": "c2eeb56384507b2e8b68e0afda3a51c7bd7373f35b431850c56f6527447be36b",
+      "FEXCore/Source/Interface/Core/JIT/AtomicOps.cpp": "07f81c5b0a7ece52affdd59179bdace16f74c7ed26edf064a645fcd02b1e4b02",
+      "FEXCore/Source/Interface/Core/JIT/BranchOps.cpp": "41f400d9011e051251093066724f3d3706041507a2e7ac3a1c11893934b47f7e",
+      "FEXCore/Source/Interface/Core/JIT/JIT.cpp": "488f28be013a2426f325abdca122740cf6a1fdf2eb37eb8479f87a48ebf92975",
+      "FEXCore/Source/Interface/Core/JIT/JITClass.h": "3bd0a2db7795831afcfeb64e0c14b2e036f98826224d34abc70b42f5a851aaed",
+      "FEXCore/Source/Interface/Core/JIT/MemoryOps.cpp": "dc3aa84dcbd2678b7aac2f9e6554168d59d35f960fef74cbed0d739e98d7def8",
+      "FEXCore/Source/Interface/Core/JIT/MiscOps.cpp": "2c7a8ed94af7f636bfb08b83c04ad99dd34b94521d5d059b712f305b01e69157",
+      "FEXCore/Source/Interface/Core/LookupCache.h": "3ffecf35b6ab56e8610e5a80fa8d1df2464c03347c27e9ad84b8628493f5b1e3",
+      "FEXCore/Source/Utils/Allocator.cpp": "1cba80cc082e24857b0608dbce48ad5928ecfffcb05890c0c1ffcda5b0b6ecc2",
+      "FEXCore/Source/Utils/Allocator/64BitAllocator.cpp": "ce66047307e54a65f8d5f5978c5f8debc708845353ec72198ecaefcce664036e",
+      "FEXCore/Source/Utils/AllocatorHooks.cpp": "0df320e066425e69bf9e8ef500ec969c02e8b612ee555f6ca4c3c678356a4d6f",
+      "FEXCore/Source/Utils/Profiler.cpp": "4e882f164a8dfd722c1af31f9c40bd91b1b22afea3603028e12d77688c12d62d",
+      "FEXCore/include/FEXCore/Core/Context.h": "81454904e564a55570427de3d2153a98b31a6955f2eb2304eab16ab6867cd10f",
+      "FEXCore/include/FEXCore/Core/CoreState.h": "e5824cd3538e55aaacad9fbf268775537988f31c5d5254cace90f89fe0c9f1a1",
+      "FEXCore/include/FEXCore/HLE/SyscallHandler.h": "944a75fdb94392c11d2121178cebf53889b7f66100573fdb42809a70bf19b961",
+      "FEXCore/include/FEXCore/Utils/AllocatorHooks.h": "d9f1ba5f72dbe29ce839448d65ff2b3e6855c350eb4ed3883317447f1a5449f4",
+      "FEXCore/include/FEXCore/Utils/PrctlUtils.h": "3071775a7ef45d98d2d8c6ab5c2287db07c4d34fa13a6d73e166ed88cc40304a",
+      "FEXCore/include/FEXCore/Utils/SignalScopeGuards.h": "4d85780501a0e32e1d4cb23d92463374ab2dcc6463eccb4b3a0bba3f2837c0ff",
+      "FEXCore/include/FEXCore/Utils/SpinWaitLock.h": "2f07e658f5ec75042ef177f7999213c7d262acbbb3ae8099c0e332db69bceb16",
+      "FEXCore/include/FEXCore/Utils/ThreadPoolAllocator.h": "f1b8d66218dfea3a6f5afc48492d6d509c2056370c2af9e6fe1afb045b7fdb03",
+      "FEXCore/include/FEXCore/Utils/WritePriorityMutex.h": "8751cdf980dc61b6d7371fae913a204f3cc6201239283c7d0c34d2705e5ed987",
+      "FEXHeaderUtils/FEXHeaderUtils/Filesystem.h": "c947d54cf40cb60d8a9bc8521823120216798d4c0425e4d9fc597f26158374a4",
+      "FEXHeaderUtils/FEXHeaderUtils/Syscalls.h": "3156dbbf6dfd7b66e977a25bbadd0fc401601d040774f2e773559dd0926daffb"
+    }
+  },
+  "wine": {
+    "url": "https://github.com/wine-mirror/wine.git",
+    "commit": "455e3509b98a6919fd4ad1def4803e08c41c03b2",
+    "submodules": [],
+    "patches": [
+      {
+        "path": "patches/wine/0001-d18340e-source-port.patch",
+        "sha256": "ee45bec2f7e8df1b6909a03818e3dfde0b7e2f659d303f23931c0527b37a1271"
+      },
+      {
+        "path": "patches/wine/0002-map-empty-export-name-tables.patch",
+        "sha256": "55c1b65309050be8083602059754f60fbdfbcba5748e3780197f111aa855073d"
+      },
+      {
+        "path": "patches/wine/0003-export-existing-metal-helpers.patch",
+        "sha256": "b69074e08f8d9d8e9e5b59406d39ec1b1612a01a58eb2e092e95bd499a83ba71"
+      }
+    ],
+    "patched_files": {
+      "configure": "13827d37547adf73b683db6d411f4c4ffc285e32ea5dc3a55f8d5c5135d151b0",
+      "configure.ac": "307e75cf59da38b34353f032aeaa9c82cc6bcca1840533a5cb88c90f70d17684",
+      "dlls/kernel32/process.c": "86d07fb4a8750f14d1f7f333e960cb1d459a617e9cc7e54a829c6e2a6721c2bf",
+      "dlls/kernel32/sync.c": "2d874f9b57b0d86a3b7342ec657685bbcd647a5aae8e36479ac2c46e827b5628",
+      "dlls/kernelbase/memory.c": "32a26e447350116b95f2169e166e3e76dac7f8d21a9f7d202ec62ff350fb6ba3",
+      "dlls/kernelbase/sync.c": "f0c5c68cf7d94abf1ceb5dde6b057bae42066384d1f932fc619a514c2e39529d",
+      "dlls/mscoree/mscoree_main.c": "68afd0b828bd970b84a02bc9051b81a4c369fb7dbac34cd7d8fa009491cdb162",
+      "dlls/ntdll/loader.c": "485c019421b5bbd12ef1fede2f4046ff15e6628362bd85e036bb9a3c6933640f",
+      "dlls/ntdll/ntdll.spec": "a5df3ab21e59fdb49fb586d88e31e070a08a737ca9f868eb13a16092d5712d25",
+      "dlls/ntdll/regression_elf_unixlib.h": "ebe7d0e47ae534889f410ad4962fce3a1936be360a0c3d33b3dbf363eb05bdb7",
+      "dlls/ntdll/runtime_paths.h": "91b906ae7ff0ce854eb9681a811bd02d526a0ef9d08ac07a4751cfab780901d2",
+      "dlls/ntdll/signal_arm64.c": "a6724dd43afb4ea7e774a9026d5d19b0920e30a915ce38c375acaf13a2b94492",
+      "dlls/ntdll/signal_arm64ec.c": "35e0aa30e68cc66299a95f5af35f0da33e4d48b3086e66d264f2148e2693fcf4",
+      "dlls/ntdll/sync.c": "6593a1d3ce407577f014a4db96e1e0b2d62cf230d9703702923357d1dd9d0436",
+      "dlls/ntdll/thread.c": "4f44827ba9d4442b3df076938f877b34e17279248ce9171834ad17fde835b1df",
+      "dlls/ntdll/unix/loader.c": "9a1e75295c24e6d5a3355628a9b585517259c96def920f040769a71e7b71de51",
+      "dlls/ntdll/unix/process.c": "e8923746cddbf07c3a1a5e3442932dfae103eb2f6b072284a05075d38af7ece8",
+      "dlls/ntdll/unix/signal_arm64.c": "45e3a89afa0e8eff710dfd587d6698039b04744297fcd6c1040a8944d8ca3925",
+      "dlls/ntdll/unix/thread.c": "bed5374f54d659a51c501839163286f3b717a0677cb632ac311dfd5d314bdf08",
+      "dlls/ntdll/unix/virtual.c": "2ec4ec4ce141761c1a9c60dbbcdeeeafb8b4e156e66172e45d5c2e861c088adb",
+      "dlls/ntdll/unixlib.h": "59a4159630d2fe39a639d162734b8aaf4d8527dfa5c8dc259ffc4d425ac53db6",
+      "dlls/ntoskrnl.exe/instr.c": "f24c70fd70958f912d90646e5e49607e643541b18df082ae61555b387bb9e22a",
+      "dlls/win32u/message.c": "7d279a557ca05f9e1c2a10ed504a2c2d57ca937dbc07ca302ef6c0349b815b95",
+      "include/winnt.h": "790ce83793e37cc6400186f8f02f89f59f2660c7943659872ec2ce11a8639e9d",
+      "server/mapping.c": "6aa2846c4c358406f4650d018d81b3a03b52f15551d0239aa7da31912021194a",
+      "tools/makedep.c": "5d1b835cc2743fc61f5d6c7b0e43317badfa389b543a3217e15dbb19ef78c2c3",
+      "tools/vkmt-fix-x18-tls.py": "e70e3c60938bb50a396924c5e94d8881a89e030b8ea361a9ad17a81079ac0e80",
+      "tools/wine/wine.c": "b00c3d1d12b879e2becd0e1f68396e07b5f4c80e2e2f0f3735a91f6360b9fb0a",
+      "tools/winebuild/spec32.c": "4103c9a26ae74951784f93e741a286aaeaae248207bb8b2273c88465a1af2294",
+      "dlls/winemac.drv/window.c": "de635e6aba5ee9a931d84c5ac02599215831d2574cb69298348ed3cea05e0b51",
+      "dlls/winemac.drv/cocoa_window.m": "1d2b8b72c2968339a6bec5d6e9f1ab29b52ea3bd4e3ffd91000cf41e20d483aa"
+    },
+    "status": "source port of inherited post-link hooks; runtime regression pending"
+  },
+  "dxmt": {
+    "url": "https://github.com/3Shain/dxmt.git",
+    "commit": "589adb780354b461645b29999cefaf533594ee99",
+    "submodules": [
+      {
+        "path": "include/native/directx",
+        "module": "include/native/directx",
+        "url": "https://github.com/misyltoad/mingw-directx-headers",
+        "commit": "9df86f2341616ef1888ae59919feaa6d4fad693d"
+      }
+    ],
+    "patches": [
+      {
+        "path": "patches/dxmt/0001-vkmt-xcode27-arm64.patch",
+        "sha256": "d39e9f05f0dce91a008ee5e50074abcef22e6a985515ca1b07d20cb8a1ec0008"
+      }
+    ],
+    "patched_files": {
+      "meson.build": "9160fe95bf5229600808180df82f6acbde4985653d97fce4b77c4a33ca069a6d",
+      "src/airconv/darwin/meson.build": "1796bea5bdba938d6f2b6a78f237d00af69ff0de81e1301aa794beba3ef6d4bb",
+      "src/airconv/shaders/air_tessellation.metal": "03d6f543176a19964e603765e3ba4671a8c66bd54e29ed238f835be9e41c3b8b",
+      "src/d3d11/d3d11_swapchain.cpp": "ac5806afbf7b1239a23909745d255ec9d504c651d27b495fdda6c779409cf3aa",
+      "src/dxgi/dxgi.cpp": "ef95b648087b3cc41f332a34c82ad173bbb1fb806fed38868e625400a1445453",
+      "src/util/com/com_guid.cpp": "9f8c117478a27d9e397a9ecad16dbc88ed87aa7e84f3080a2a0bab5891a5ca69",
+      "src/winemetal/Metal.hpp": "9b2bdb7d98d0020319c8fbdace14935994d2af471313a3e1130d4894b95dca6c",
+      "src/winemetal/unix/cache.c": "4a9df9eca100b838b46f11ac068a542b3faef6373191236797016dc0a2f3c874",
+      "src/winemetal/unix/winemetal_unix.c": "bd02cf2f069a77fbd6d9d4d37602818261dcd460f1b8bf9eea8ebc02580c360a",
+      "src/winemetal/winemetal.h": "8567862098a5893e2d61fa61c86b4842aa451e18fe622d5ec53c9560322b563e",
+      "src/winemetal/winemetal_thunks.c": "cd7c1a5eada10c5939f15f799cb5ff2c3ff1275ad7946a58a7e9ee0a5b6758cb",
+      "src/winemetal/winemetal_thunks.h": "d85e23030c7588e0ca40a4ec479372cc53d47096f133dfc878bf57e058cdc506"
+    },
+    "status": "DXMT v0.80 with the existing VKMT Xcode27/ARM64 compatibility patch, matching the provider build recipe; runtime validation pending",
+    "provider_source": "VKMT a89dcc9845c8dea89d224187ae60253ed5f8d627 fetch/build-dxmt-arm64ec scripts"
+  }
+}

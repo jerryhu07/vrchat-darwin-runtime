@@ -1,0 +1,104 @@
+{
+  "guest_files": {
+    "usr/lib64/ld-linux-x86-64.so.2": {
+      "sha256": "a3d4f0a5011a9d9c17626a9be84186bbda622790dbe3978248be8185dd08ab47",
+      "build_id": "8137eaff4871c5ffbb5d4d3fba9209843c1615b9",
+      "url": "https://debuginfod.fedoraproject.org/buildid/8137eaff4871c5ffbb5d4d3fba9209843c1615b9/executable"
+    },
+    "usr/lib64/libc.so.6": {
+      "sha256": "40e82c7fafb0bd25f5dd599b074e26694df2e6081426f3a740ff54126fd739fb",
+      "build_id": "b1556adba4fb835078af59a0c8bb38367dc860ed",
+      "url": "https://debuginfod.fedoraproject.org/buildid/b1556adba4fb835078af59a0c8bb38367dc860ed/executable"
+    },
+    "usr/lib64/libm.so.6": {
+      "sha256": "903f2ce30e10a8e416ab9a0914b15d33294ec40412f80a414c9e3f7dced9f484",
+      "build_id": "1706d5dfcb123e3e4406de5e8a59f94f588781a0",
+      "url": "https://debuginfod.fedoraproject.org/buildid/1706d5dfcb123e3e4406de5e8a59f94f588781a0/executable"
+    },
+    "usr/lib64/libdl.so.2": {
+      "sha256": "73b17389b13087eef5c68edd8355edbe0c12959079192fc9d2c4ce27252f228a",
+      "build_id": "bc6130991decc5016ab9d08bab400d59540aa9e1",
+      "url": "https://debuginfod.fedoraproject.org/buildid/bc6130991decc5016ab9d08bab400d59540aa9e1/executable"
+    },
+    "usr/lib64/libpthread.so.0": {
+      "sha256": "8feb2f06b9271cbfeaef938afa09b098c8660924239266dde16651c31a10847d",
+      "build_id": "c379a8b35a87083fec7b16b151c9e3b540ee4aa8",
+      "url": "https://debuginfod.fedoraproject.org/buildid/c379a8b35a87083fec7b16b151c9e3b540ee4aa8/executable"
+    },
+    "usr/lib64/librt.so.1": {
+      "sha256": "7b7b84d1aedda0e0b2bdfc68844362782132180b8f02be1300e21e77572e514b",
+      "build_id": "ed4b288a01b5ac2693f3f042164922f685d9fb70",
+      "package": {
+        "url": "https://deb.debian.org/debian/pool/main/g/glibc/libc6_2.41-12+deb13u4_amd64.deb",
+        "sha256": "967aa62605721081c3eb2a17650611a792aa802d76a6511d1840242623d204c9",
+        "data_member": "data.tar.xz",
+        "member": "./usr/lib/x86_64-linux-gnu/librt.so.1"
+      }
+    },
+    "usr/lib64/libgcc_s.so.1": {
+      "sha256": "1e80670c8f34993459b2fdf2f997b4527131d390a4fb0c673d1f902108139d46",
+      "build_id": "ca3ab7a2e85e35df6baacf1b1eca78f382e7d7ea",
+      "url": "https://debuginfod.fedoraproject.org/buildid/ca3ab7a2e85e35df6baacf1b1eca78f382e7d7ea/executable"
+    },
+    "opt/regression-wine-entry/wine64": {
+      "sha256": "f96a2ac1fcb00f0317a48eaddeedfb8f170d42a6d5714b46a21dbde876649500",
+      "build_id": "3414bd16185a41c7104c7d9afe78663f35ffaddf",
+      "proton": {
+        "version": "11.0-1",
+        "app_id": 4628710,
+        "depot_id": 4628711,
+        "manifest_id": "2323543246978012070",
+        "relative_path": "files/lib/wine/x86_64-unix/wine64"
+      }
+    },
+    "usr/lib64/gconv/UTF-16.so": {
+      "sha256": "731708cc25959f53a67a8cfdc1f89575b34b8c168efa3877f485db745006f705",
+      "build_id": "8fe01efb4b957d28c5c4500c811609d875228f76",
+      "url": "https://debuginfod.fedoraproject.org/buildid/8fe01efb4b957d28c5c4500c811609d875228f76/executable"
+    },
+    "usr/lib64/gconv/UTF-32.so": {
+      "sha256": "057719567d6a5ca34f717f611dd43858df31c54f855f4164eefaa3b6af01cd75",
+      "build_id": "95a69c64511a0b716e79396addd332e8a72db532",
+      "url": "https://debuginfod.fedoraproject.org/buildid/95a69c64511a0b716e79396addd332e8a72db532/executable"
+    },
+    "usr/lib64/gconv/ISO8859-1.so": {
+      "sha256": "77af69fcee7c8271a64d1aeec3f02b1d809cb14d7013104ad86bfdb3ee38a8c0",
+      "build_id": "9d13382ff12846444f25717206882d3dd3927297",
+      "url": "https://debuginfod.fedoraproject.org/buildid/9d13382ff12846444f25717206882d3dd3927297/executable"
+    },
+    "usr/lib64/gconv/UTF-7.so": {
+      "sha256": "7a8214b0802f6f0bdf826f17e4ba5de76d0b84c8d5e32eef3270d1f3e95c99f6",
+      "build_id": "739ad781791dcea2eecc95dd328d4317cafd7825",
+      "url": "https://debuginfod.fedoraproject.org/buildid/739ad781791dcea2eecc95dd328d4317cafd7825/executable"
+    },
+    "usr/lib64/gconv/CP1252.so": {
+      "sha256": "5e8f7574ea285eb39ce1e8cb66313eb5b5dee38b4628364c698137ede642c970",
+      "build_id": "665cc54f23a0c253d5dc41e631816271411340b0",
+      "url": "https://debuginfod.fedoraproject.org/buildid/665cc54f23a0c253d5dc41e631816271411340b0/executable"
+    },
+    "usr/lib64/gconv/UNICODE.so": {
+      "sha256": "089d831ec682c260269780425f774b9f4a3b34c35a56b00c79d328bc17441c53",
+      "build_id": "7d56045d4d6f006c59e304d6f0c04b8c8fdf268b",
+      "url": "https://debuginfod.fedoraproject.org/buildid/7d56045d4d6f006c59e304d6f0c04b8c8fdf268b/executable"
+    },
+    "usr/lib64/gconv/ISO8859-15.so": {
+      "sha256": "e5b0b133a07dd41fe8aa8b56b9223b4ca65153b9195af5107730ffea0c1de3c0",
+      "build_id": "e18f9da38b9d01c6fd00cee0a053fae7fb3a9d98",
+      "url": "https://debuginfod.fedoraproject.org/buildid/e18f9da38b9d01c6fd00cee0a053fae7fb3a9d98/executable"
+    },
+    "opt/wine-devel/bin/wine": {
+      "sha256": "7a6de49c00d8ed2ba55c6967d3643c5ef729f5e562fb51e47e4f41c6cdb5c92a",
+      "build_id": "41934b036f1dea75addcd0a34a32de5e133b82c5",
+      "proton": {
+        "version": "11.0-1",
+        "app_id": 4628710,
+        "depot_id": 4628711,
+        "manifest_id": "2323543246978012070",
+        "relative_path": "files/bin/wine"
+      }
+    }
+  },
+  "glibc_version": "2.42",
+  "scope": "Verified public inputs: 13 debuginfod executables, Debian libc6 librt, and two frontend members from the pinned official Proton depot.",
+  "wine_frontend_origin": "Both frontend files are byte-identical to the pinned official Proton 11.0-1 Steam depot. opt/wine-devel/bin/wine is Proton files/bin/wine, at the path used by the startup executor."
+}

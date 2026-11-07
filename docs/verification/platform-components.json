@@ -1,0 +1,62 @@
+{
+  "scope": "Platform components built against explicitly selected Wine/FEX artifacts; their runtime validation is separate",
+  "source_files": {
+    "bridge.cpp": "79ad13a1e0ece5cc17f1fb8e034db39086cf1a4b2e63ea522cd7313916aaf565",
+    "compat/elf.h": "42499bd2814b0a681380a1920adda5c63b0ee4356b79c0ae2a2cfd87dfe721e9",
+    "compat/linux/limits.h": "0d9d2b4c43fc9a2537523fef25b5914341973bfc90cfb957ec48d1cd21eb94da",
+    "cwd-service.h": "2390f21a6bdca9f474b9d66037f4018e0ac16020bb5ffb025ef845b7f348b22d",
+    "elf-carrier.cpp": "a7894db6e745e14c2c6195672a538c6072ae52aa8754afcbd2728b10bc998e33",
+    "elf-entry.S": "3b45c36586f786ea4bf6204ad62932997e2a9409d4d1cea652bb05348c96fcc6",
+    "elf-sysv-call.S": "8cd055135f8e6ffcc70e7bc2bd5f6af5f85d93c25b12a364e03716e54b67a44f",
+    "elf-transport.c": "9aed4e6381b3e41ee59d85a5ef77604fd629e082d579f3cc645756c6b7cb8ff2",
+    "file-identity.h": "58a7b20fa61499ccc251d8a499a730c4727bb762684ced46c7a610b4865200c5",
+    "fli_darwin_pci_inventory.h": "66e29c6e617b87d29afc97b1b77d992258d0cbf2c837d1a2245a61945843e3ff",
+    "fli_elf_thread_abi.h": "d5c4accf3ad983645a377eaee90cd5df7af0c0fb14a58b3c4a6ee32f14bcd507",
+    "fli_native_maps_view.h": "6be0876882558a82dc7635c92b171c12379b14a3eb87895777e6702d47d5be61",
+    "fli_native_procargs_snapshot.h": "2b3f62bcc43af7af47f6673e9504842e8248a7310aafbf4a82b7de416532a432",
+    "futex-abi.h": "c0f6fcb48af039f09b5f3f34807b12a72e25e1b43e96a1c2254727c8ea563e7b",
+    "futex-service.h": "337d3dcad5e4699bd9e0a56d5fe7cd9d873b6ad158d6041b6d460f80d3832f94",
+    "internet-sockets.inc": "430e709feb744322fb8bda38c5b5300f612670e1dd3d1ec93db353b796d1bd9c",
+    "jit-service.cpp": "3f9b7327a6923619bbc68fa1e8a44331197c02e5c481a6cef5ed8c5c98b8eb6b",
+    "linux-abi.h": "ad058a3cd5dde552c873bf269494cdf30026f6c0d68a99455053a1bb2f54d458",
+    "linux-thread-owner.h": "2d0282a6584f98abc156f06f6c2502b16392762bf75f795c087743943a12dfa3",
+    "memory-owner-abi.h": "4a51aacf2c2208e47280f04d929b14b648baa04ab7c2b8161f282095e9dbdbb1",
+    "native-trace-state.h": "b805b53ab322f89d0be093435e708fb5232013c83dbde002ec7b6abc3a68615e",
+    "paths.h": "4924c00bc3396bd4129e5161bdb8d198c978c3ebbe9b1e31ccb5dfb8219f6a5c",
+    "runtime-abi.h": "03d845b1c5357b9e88f550a1da6a63ba689b4ec17ea78f33fd791a5e7c5cad3a",
+    "runtime-env.h": "14f1c9d6f6d6b6a3a473877e9ab9c50022354bf4fafa0507d9bcc6b9077cd3f4",
+    "sleep-service.h": "ffc2787da858816adcaf6f9ad7c2f16cddc4b882aa8ec521c50a6c9fbcd0c9fa",
+    "wine-host.c": "528bd7d891216fb267da1cf43b9869be4ec37bdb9aaf172de28dcccfeb16d1b9"
+  },
+  "darwin_fex_sha256": "64e52224e843c01481f3faba245d1d386abb10bfb456087462f578f99b59240b",
+  "wine_ntdll_sha256": "7ed541d0a3a7ac36553d2f01906d336335d054c9ce85879891117099743cb844",
+  "fex_sha256": "a18b177cefb93dbb40040612078e4108f6103c7727f07c3276dce9a99fd00df3",
+  "definitions": {
+    "VRCHAT_WINE_UNIX_DISPATCH_RVA": 1446848,
+    "VRCHAT_FEX_MEMORY_DISPATCH_RVA": 31868,
+    "VRCHAT_FEX_CONFIGURE_MEMORY_RVA": 31812,
+    "VRCHAT_FEX_INSTALL_ALIASES_RVA": 31660,
+    "VRCHAT_FEX_INVALIDATION_TRACKER_RVA": 3806552,
+    "VRCHAT_FEX_DISPATCHER_QUERY_RVA": 31780,
+    "REGRESSION_WINE_NOTIFY_ALLOC_RVA": 1469880,
+    "REGRESSION_WINE_NOTIFY_PROTECT_RVA": 1469896,
+    "REGRESSION_WINE_CONTEXT_RVA": 828632,
+    "REGRESSION_FEX_RESET_RVA": 16956,
+    "REGRESSION_FEX_UNALIGNED_RVA": 1055432,
+    "REGRESSION_FEX_CALLRET_RVA": 16668,
+    "REGRESSION_FEX_GUEST_BRANCH_RVA": 3807376,
+    "REGRESSION_FEX_CPUID_OBSERVATION_RVA": 3806824
+  },
+  "artifacts": {
+    "linux-bridge.so": "d65f03eb7a6510647116914014e6bc9b252bd963ee3d8c4b5f6caff042554ac9",
+    "jit-service.so": "e1a6dd9454c3d5ac9045c012c31ad19f5740d3e6f993759205d64b32c69d6aee",
+    "wine-host": "1b3f0de4a524bb4e349de4afc0bbc6f9a8338003b688934534aabb7c15c05a05",
+    "elf-transport.dll": "464140730436fd87ce10fa3b4c88363daf495c07af25e7b9f86d039bf25ab751",
+    "linux-carrier.so": "4188d602f165def1b923f1b0a4f17c17076784136bc70494def5cdfb9db80a7d",
+    "fli-fexcore-process-probe": "64ca9f505a3629f467c343fa2444b2b900d98fd3cba1a8c86d1480f0a0522015"
+  },
+  "startup_sources": {
+    "debug.entitlements": "0bf01625990691c227551c42c03d17b69959df94b51cb2f66c97bf28d1379001",
+    "root.cpp": "b1082e935c1c8bb2e46e1a1367f6a4a6826b93a024005dc55ec4b5bf4f332f7e"
+  }
+}

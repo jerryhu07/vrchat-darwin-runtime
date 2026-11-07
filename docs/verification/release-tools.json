@@ -1,0 +1,18 @@
+{
+  "tests": 9,
+  "passed": true,
+  "skipped": 0,
+  "scope": "Source/build-tool checks only; no Wine or game runtime executed",
+  "command": "LLVM_BIN=<LLVM bin> ARM64EC_CLANG=<Wine toolchain ARM64EC clang> python3 tools/dev.py test",
+  "checks": [
+    "patch and source integrity",
+    "edited source rejection",
+    "path ownership and boolean switch semantics",
+    "absence of personal paths in release source",
+    "TLS rewrite and idempotence",
+    "ordinal-only ARM64X exports",
+    "Wine Metal helper exports",
+    "graphics staging rejects mismatched inputs",
+    "shared internet socket ABI and startup extensions over loopback"
+  ]
+}
