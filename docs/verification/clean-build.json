@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-08",
+  "source_commit": "2428ca555856641a32b1464edbeea4ab2242b19a",
+  "source_tree": "1f9645acfd527edaa9de189fb4a5dbaa64128007",
+  "host": {
+    "cpu": "Apple M4 Pro",
+    "macos": "27.0.1",
+    "sdk": "26.5",
+    "python": "Python 3.9.7",
+    "dependencies": {
+      "fmt": "12.2.0",
+      "freetype2": "26.6.20",
+      "fontconfig": "2.18.3",
+      "gnutls": "3.8.12"
+    },
+    "bison": "bison (GNU Bison) 3.8.2",
+    "clang": "Apple clang version 21.0.0 (clang-2100.1.1.101)"
+  },
+  "scope": "Fresh GitHub clone, empty build directories, full component builds, empty runtime output, new native and Linux Wine prefixes, fresh user login and protected world entry. No previous project build outputs, Wine prefixes or login state were copied.",
+  "components_built": [
+    "fixed-register ARM64EC CRT and C++ runtimes",
+    "FEX ARM64EC",
+    "FEX Darwin",
+    "epoll-shim",
+    "Wine (all targets)",
+    "platform components"
+  ],
+  "checks": {
+    "host_passed": 8,
+    "host_skipped": 0,
+    "owned_runtime_passed": 21
+  },
+  "result": {
+    "launcher_code": 301,
+    "native_handoff": true,
+    "anti_cheat_session": true,
+    "room_joined": true,
+    "world_entry": true,
+    "visible_room_confirmed_by_user": true,
+    "crash_observed": false,
+    "old_runtime_file_references": 0,
+    "process_alive_after_world_entry": true
+  },
+  "native_dependency_audit": {
+    "native_files": 81,
+    "external_dependencies": [],
+    "external_rpaths": [],
+    "native_theme_bytes": 7667712
+  },
+  "input_locks": {
+    "sources.lock.json": "c037a34e6d5ea682e0de60ebd0c58d94ed79f9dd79e34408cd81d584e5b2843c",
+    "toolchain.lock.json": "de47712f6c9bae4759630ae1aa1996090011a5b176940c78c61ea4eeb721066a",
+    "graphics.lock.json": "b7f6b998f3162c6ebe69c0797e3ccb2a3498620389f388cf71b5f420905de766",
+    "guest-dependencies.lock.json": "f5e13cddc5b15ac02eaf1504d1fc290da2a5542659dac871a9526a8968a1ddd3"
+  },
+  "runtime_artifacts": {
+    "wine/dlls/ntdll/aarch64-windows/ntdll.dll": "4af3ce28a8b88017eaa5991c5edecd434de1a75dbb188dbf84d2cd9abc7b50b0",
+    "wine/dlls/ntdll/ntdll.so": "7a25adbb00ad168cffff528e3e338b840fa20c034e832a63cf0915a9015c5759",
+    "wine/dlls/winemac.drv/winemac.so": "55acd4f4f3d252732483dc9368ff6f61ba3f590b5cf785a75cc95748cd7ee3a8",
+    "wine/dlls/windows.networking.connectivity/aarch64-windows/windows.networking.connectivity.dll": "37873ca442b10c793a4a1163b5092b7d1502b10a640cbd74cde8d1bbd1337475",
+    "wine/dlls/xtajit64/aarch64-windows/xtajit64.dll": "05deece48dbc3ddcf6568ee61181491e277768ec1b132cd051bca580cb139794",
+    "platform/VRChat Runtime.app/Contents/MacOS/wine-host": "eab9504da88c68546fbd7c501c736dcb67dc8f700faf541b011045967dc62cba",
+    "platform/linux-carrier.so": "da1ed2a2052f698d7302ae08841e6cfa269b8533a53cffeecccd25926b80b83a",
+    "platform/linux-bridge.so": "503fd652eed83e0e169f10736b44caff3ebffa02896b0a8d856dd8acfdfc532f",
+    "platform/elf-transport.dll": "fe488dbf0fcc2e9304eaf84cb312d39fbea6f5ada26c263544150d6d5bf41f0e",
+    "platform/libFEXCore.dylib": "321c11180ac39063ac1b81647ee9e8a7c8aee699e8c0a69f26fa094ec83efaf2",
+    "platform/fli-fexcore-process-probe": "51d88309605c4b47674941bf0b7243c3e77c5b2b4ac927780106f434da1c4f92",
+    "native-rootfs/opt/regression-wine-entry/ntdll.so": "9f8be10418764d3f4b96f8f8b2ab260ad56082ba0bd48406dd33265f1ac30643"
+  },
+  "input_notes": [
+    "The user supplied unmodified official VRChat, Proton and Proton EAC installations; their fingerprints matched the committed records.",
+    "Source repositories, stock toolchains, graphics archive and Linux guest dependencies were fetched anew. Graphics parts 03 and 04 used the same official GitHub release asset API after the release download URLs returned HTTP 504; all part and complete-archive hashes matched.",
+    "The online session used a bootstrap HTTP(S) proxy and the existing host route for room UDP."
+  ],
+  "limitations": "This was an empty-directory build on the same Mac with existing documented host prerequisites, not a second-machine validation. Graphics use the pinned public binaries; the optional DXMT source build was not exercised."
+}

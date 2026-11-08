@@ -8,7 +8,7 @@ This source preview explores how to run VRChat on Apple Silicon with Wine, FEX, 
 
 | Scope | Validation |
 |---|---|
-| Assembled runtime | Source-built Wine, FEX, and platform components with pinned public graphics and guest inputs launched the original VRChat 2026.4.1p1 on an M4 Pro running macOS 27.0.1. A new prefix and independent game directory established an EAC session and entered a room. [Reproduction record](docs/verification/reproduced-runtime.json) |
+| Clean build and runtime | A fresh GitHub clone was fully built and assembled into empty native and Linux Wine prefixes on an M4 Pro running macOS 27.0.1. After a fresh login, the original VRChat 2026.4.1p1 established an EAC session and entered a visible room. Graphics use pinned public binaries. [Clean-build record](docs/verification/clean-build.json) |
 | Source components | [Component fingerprints](docs/verification/platform-components.json) record the selected Wine/FEX pairing and platform sources. |
 | Tooling and host checks | 8 checks passed. [Test record](docs/verification/release-tools.json) |
 | Windows test programs | 21 runtime checks passed, including WinRT connection-cost queries. [Runtime record](docs/verification/owned-runtime.json) |
