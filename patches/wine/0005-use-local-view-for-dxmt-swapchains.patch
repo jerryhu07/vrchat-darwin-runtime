@@ -1,0 +1,23 @@
+--- a/dlls/winemac.drv/cocoa_window.m
++++ b/dlls/winemac.drv/cocoa_window.m
+@@ -3793,6 +3793,20 @@
+ __attribute__((visibility("default")))
+ id<WineMetalSwapChain> macdrv_create_offscreen_swapchain(void* hwnd, CGRect bounds)
+ {
++    WineWindow *window = macdrv_get_cocoa_window(hwnd, false);
++    if (window)
++    {
++        __block WineContentView *view;
++        id<WineMetalSwapChain> swapchain;
++        /* DXMT can request a swapchain before a client surface exists.
++         * A local window already has a view that follows its content size. */
++        OnMainThread(^{
++            view = [[window contentView] retain];
++        });
++        swapchain = [[MetalViewSwapChain alloc] initWithView:view];
++        [view release];
++        return swapchain;
++    }
+     return [[CAContextSwapChain alloc] initWithHwnd:hwnd bounds:bounds];
+ }
+ 

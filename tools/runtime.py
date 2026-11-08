@@ -6,6 +6,7 @@ import fcntl
 import hashlib
 import json
 import os
+import plistlib
 import re
 import secrets
 import select
@@ -33,6 +34,7 @@ def copy(source, target):
 def native_environment(runtime):
     game = Path(json.loads((runtime / 'runtime.json').read_text())['game'])
     wine, platform, state = runtime / 'wine', runtime / 'platform', runtime / 'state'
+    host = platform / 'VRChat Runtime.app/Contents/MacOS/wine-host'
     env = {k: os.environ[k] for k in ('PATH', 'HOME', 'USER', 'LOGNAME', 'TMPDIR') if k in os.environ}
     env.update({key: '1' for key in (
         'REGRESSION_FLI_RESERVE_PE_IMAGE', 'REGRESSION_FLI_READONLY_LARGE_BLOCKS',
@@ -48,7 +50,7 @@ def native_environment(runtime):
         'VRCHAT_GAME_DIR': game, 'VRCHAT_STATE_DIR': state,
         'REGRESSION_PREFIX': runtime / 'prefix', 'WINEPREFIX': runtime / 'prefix',
         'REGRESSION_WINE_BUILD': wine, 'WINEBUILDDIR': wine,
-        'REGRESSION_WINE_FRONTEND': platform / 'wine-host', 'WINELOADER': platform / 'wine-host',
+        'REGRESSION_WINE_FRONTEND': host, 'WINELOADER': host,
         'WINESERVER': wine / 'server/wineserver',
         'REGRESSION_FLI_CARRIER': platform / 'linux-carrier.so',
         'REGRESSION_LINUX_BRIDGE_PATH': platform / 'linux-bridge.so',
@@ -145,7 +147,15 @@ def prepare(args):
         source = ROOT / '.local/platform' / name
         if hashlib.sha256(source.read_bytes()).hexdigest() != expected:
             raise SystemExit('Platform artifact changed: ' + name)
-        copy(source, platform / name)
+        target = platform / ('VRChat Runtime.app/Contents/MacOS/wine-host' if name == 'wine-host' else name)
+        copy(source, target)
+    app = platform / 'VRChat Runtime.app'
+    with (app / 'Contents/Info.plist').open('wb') as output:
+        plistlib.dump({'CFBundleExecutable': 'wine-host', 'CFBundleIdentifier': 'org.vrchat-darwin.runtime',
+                      'CFBundleName': 'VRChat Runtime', 'CFBundlePackageType': 'APPL',
+                      'CFBundleShortVersionString': '0.1', 'CFBundleVersion': '1',
+                      'NSHighResolutionCapable': True}, output)
+    run(['codesign', '--force', '--sign', '-', app])
     copy(platform / 'jit-service.so', wine / 'dlls/libarm64ecfex/libarm64ecfex.so')
     copy(ROOT / '.local/build/fex-darwin/FEXCore/Source/libFEXCore.dylib', platform / 'libFEXCore.dylib')
     copy(args.epoll_prefix / 'lib/libepoll-shim.0.dylib', platform / 'libepoll-shim.0.dylib')
@@ -186,8 +196,11 @@ def prepare(args):
     setup_env = {**env, 'WINEDLLOVERRIDES': 'winemenubuilder.exe=;mscoree,mshtml='}
     with (runtime / 'state/wineboot.log').open('w') as log:
         try:
-            run([runtime / 'platform/wine-host', 'wineboot', '-u'], env=setup_env,
+            run([env['WINELOADER'], 'wineboot', '-u'], env=setup_env,
                 stdout=log, stderr=subprocess.STDOUT, timeout=180)
+            run([env['WINELOADER'], 'reg', 'add', r'HKCU\Software\Wine\AppDefaults\VRChat.exe\Mac Driver',
+                 '/v', 'CursorClippingLocksWindows', '/t', 'REG_SZ', '/d', 'N', '/f'], env=setup_env,
+                stdout=log, stderr=subprocess.STDOUT, timeout=30)
         finally:
             run([wine / 'server/wineserver', '-k'], env=env, timeout=10)
             run([wine / 'server/wineserver', '-w'], env=env, timeout=10)
@@ -299,7 +312,7 @@ def startup_session(runtime, output, proxy, initialize=False):
             subprocess.run([native['WINESERVER'], '-k'], env=native, timeout=10, check=False)
             for stop_signal in (signal.SIGTERM, signal.SIGKILL):
                 rows = subprocess.check_output(['ps', '-axo', 'pid=,uid=,stat=,comm='], text=True)
-                owned = {str(runtime / 'platform' / name) for name in ('wine-host', 'fli-fexcore-process-probe')}
+                owned = {native['WINELOADER'], str(runtime / 'platform/fli-fexcore-process-probe')}
                 for row in rows.splitlines():
                     pid, uid, status, executable = row.split(None, 3)
                     if int(uid) == os.getuid() and not status.startswith('Z') and executable in owned:
@@ -376,6 +389,8 @@ def launch(args):
                 if main_pid:
                     status = subprocess.run(['ps', '-p', str(main_pid), '-o', 'stat='], capture_output=True, text=True)
                     if not status.stdout.strip() or status.stdout.lstrip().startswith('Z'):
+                        if 'Crash!!!' in read_log(output / 'player.log'):
+                            raise RuntimeError('Game crashed; see ' + str(output))
                         break
                 elif child.poll() is not None:
                     raise RuntimeError('Protected launcher exited without a native game; see ' + str(output))

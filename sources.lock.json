@@ -211,6 +211,14 @@
       {
         "path": "patches/wine/0003-export-existing-metal-helpers.patch",
         "sha256": "b69074e08f8d9d8e9e5b59406d39ec1b1612a01a58eb2e092e95bd499a83ba71"
+      },
+      {
+        "path": "patches/wine/0004-expose-network-cost-through-winrt.patch",
+        "sha256": "1031583e3c795f94fc22b94ca68b3881675ef7492d2dfb9e73f87a1cc70d851e"
+      },
+      {
+        "path": "patches/wine/0005-use-local-view-for-dxmt-swapchains.patch",
+        "sha256": "7a5772a435ce2b9907f0b050a8a76b5cc21ce1504759884e4c8bc83046cb5616"
       }
     ],
     "patched_files": {
@@ -244,7 +252,8 @@
       "tools/wine/wine.c": "b00c3d1d12b879e2becd0e1f68396e07b5f4c80e2e2f0f3735a91f6360b9fb0a",
       "tools/winebuild/spec32.c": "4103c9a26ae74951784f93e741a286aaeaae248207bb8b2273c88465a1af2294",
       "dlls/winemac.drv/window.c": "de635e6aba5ee9a931d84c5ac02599215831d2574cb69298348ed3cea05e0b51",
-      "dlls/winemac.drv/cocoa_window.m": "1d2b8b72c2968339a6bec5d6e9f1ab29b52ea3bd4e3ffd91000cf41e20d483aa"
+      "dlls/winemac.drv/cocoa_window.m": "8a60656368f9a02c5af6d07147f17738a0cef3c6a1796eda62698ca56588dc27",
+      "dlls/windows.networking.connectivity/network_information.c": "48104b52c9ff9e9adb03e22db878f22307a11b66364eb270fbe609e2b5fcdb06"
     }
   },
   "dxmt": {

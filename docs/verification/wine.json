@@ -5,12 +5,18 @@
   ],
   "scope": "Wine source build; runtime validation is recorded separately",
   "artifacts": {
-    "dlls/ntdll/ntdll.so": "408f956c64f29d1835b13bef7d0ba1e55eb3e454646ace8a196a89ed78673374",
+    "dlls/ntdll/ntdll.so": "f3b0faebe0a36537764395acfb12fdb3ff42e673f2a96fd79828a46b4aafc971",
     "dlls/ntdll/aarch64-windows/ntdll.dll": "7ed541d0a3a7ac36553d2f01906d336335d054c9ce85879891117099743cb844",
-    "server/wineserver": "13ef51506c5d1a8343cac9cde2a8161e7c9da92282044df805cce20130b56174"
+    "server/wineserver": "13ef51506c5d1a8343cac9cde2a8161e7c9da92282044df805cce20130b56174",
+    "dlls/windows.networking.connectivity/aarch64-windows/windows.networking.connectivity.dll": "94fcaee930112505d16c4910ec08af0447d3c86bd714e05bdcb56d16a206b1d2",
+    "dlls/winemac.drv/winemac.so": "ab83e8653de2dded1fcd8b0f366b993dc61c343fd17b6ca395ce01e8f9c68a5e"
   },
   "source_lock": {
     "path": "sources.lock.json",
-    "sha256": "0ccec1b3a6ed2535eb2963bc0fa3c2ed4104dcff18caf6b4738da8d63467f09b"
-  }
+    "sha256": "c037a34e6d5ea682e0de60ebd0c58d94ed79f9dd79e34408cd81d584e5b2843c"
+  },
+  "updated_targets": [
+    "dlls/winemac.drv/winemac.so",
+    "dlls/windows.networking.connectivity/aarch64-windows/windows.networking.connectivity.dll"
+  ]
 }

@@ -107,6 +107,11 @@
         "shared-mount"
       ],
       "SHARED_MOUNT_RESULT 3/3"
+    ],
+    [
+      "network-cost.c",
+      [],
+      "NETWORK_COST_RESULT"
     ]
   ]
 }

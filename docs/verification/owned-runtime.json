@@ -119,14 +119,20 @@
       "source_sha256": "b355649c2ab9b0ce743f9756f8878b9a31e20f459678f2cc2c944a0710f06c96",
       "result": 0,
       "passed": true
+    },
+    {
+      "source": "network-cost.c",
+      "source_sha256": "920e2d6ec28dc3210ffd4eb7624cb5c60b8e8cc21c37bd23d29bb9a963037d74",
+      "result": 0,
+      "passed": true
     }
   ],
   "passed": true,
   "full_x86_exception_fidelity": false,
   "libc_sha256": "40e82c7fafb0bd25f5dd599b074e26694df2e6081426f3a740ff54126fd739fb",
-  "scope": "Owned Windows programs executed in a newly prepared source runtime and native prefix; online game verification is recorded separately",
+  "scope": "Owned Windows programs executed in the assembled runtime, including the WinRT connection-cost regression.",
   "cases_manifest": {
     "path": "tests/runtime-cases.json",
-    "sha256": "3497b08f0bc2f18dbb35b404b182e9d8dabd9942c4d1558ec38732ee4bd14b8a"
+    "sha256": "df49913a6e14133d5f43c9cbc23ef228510aad506333f426fc8ebe8588a07fbd"
   }
 }

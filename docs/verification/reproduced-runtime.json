@@ -15,7 +15,7 @@
     "world_entry": true
   },
   "native_dependency_audit": {
-    "native_files": 77,
+    "native_files": 81,
     "external_dependencies": [],
     "external_rpaths": []
   },
@@ -28,10 +28,14 @@
     "platform/elf-transport.dll": "86376b33533f0595f05511d96573781d330d2653289483d9e83f69d60bc477ba",
     "platform/libFEXCore.dylib": "da0bc3c69f4a62aa118abac22366e0118cf645310dcfc28d1e472a8796e03ae7",
     "platform/fli-fexcore-process-probe": "c06a202cd96069d45c1603eb0e7fca63cb43dd24f0a62a6742b8ba4933100c01",
-    "native-rootfs/opt/regression-wine-entry/ntdll.so": "9f8be10418764d3f4b96f8f8b2ab260ad56082ba0bd48406dd33265f1ac30643"
+    "native-rootfs/opt/regression-wine-entry/ntdll.so": "9f8be10418764d3f4b96f8f8b2ab260ad56082ba0bd48406dd33265f1ac30643",
+    "wine/dlls/windows.networking.connectivity/aarch64-windows/windows.networking.connectivity.dll": "55d8a7f58c7f7808dab319d2c239c4a1a929cb12cb14673d8bd4d55753730bb8",
+    "platform/VRChat Runtime.app/Contents/MacOS/wine-host": "f8ea662792bd2b8b39875c87f6cac72f271b97385e15af01c67bb353193c27dd",
+    "platform/VRChat Runtime.app/Contents/Info.plist": "4c43fc416502fbe8f5c2b24e761987ac0f9284a03cd70111c92d3a9c4c5eee15",
+    "wine/dlls/winemac.drv/winemac.so": "bd330afc106b24d21bf523103530b72369a18dc00d7519f0073395f50c20b382"
   },
   "input_locks": {
-    "sources.lock.json": "9495282ebd3cd56f53bc3d899b2853b30f494f81165334a561f5fe1f987f6e86",
+    "sources.lock.json": "c037a34e6d5ea682e0de60ebd0c58d94ed79f9dd79e34408cd81d584e5b2843c",
     "toolchain.lock.json": "de47712f6c9bae4759630ae1aa1996090011a5b176940c78c61ea4eeb721066a",
     "graphics.lock.json": "b7f6b998f3162c6ebe69c0797e3ccb2a3498620389f388cf71b5f420905de766",
     "guest-dependencies.lock.json": "f5e13cddc5b15ac02eaf1504d1fc290da2a5542659dac871a9526a8968a1ddd3"
@@ -57,5 +61,28 @@
     "game_symlinks": 0,
     "prototype_runtime_links": 0,
     "prototype_mapped_files": 0
+  },
+  "ui_verification": {
+    "window_visible": true,
+    "window_resize_user_confirmed": true,
+    "metal_drawable_sizes": [
+      [
+        1286,
+        514
+      ],
+      [
+        1286,
+        614
+      ],
+      [
+        1276,
+        614
+      ],
+      [
+        988,
+        614
+      ]
+    ],
+    "scope": "User confirmed that the game image follows window resizing; Metal recorded these drawable sizes in the same protected session."
   }
 }

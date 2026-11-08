@@ -108,8 +108,9 @@ def main(args):
         if is_flags and digest != baseline[case[1]]['source_sha256']:
             raise SystemExit(f'Flag fixture changed: {case[0]}')
         executable = output / (source.stem + '.exe')
+        libraries = ['-lruntimeobject'] if source.name == 'network-cost.c' else []
         run([args.toolchain / 'bin/x86_64-w64-mingw32-clang', '-O1', '-fms-extensions',
-             *flags, '-include', generated, '-I' + str(output), source, '-o', executable])
+             *flags, '-include', generated, '-I' + str(output), source, *libraries, '-o', executable])
         if args.compile_only:
             results.append({'source': case[0], 'compiled': True})
             continue

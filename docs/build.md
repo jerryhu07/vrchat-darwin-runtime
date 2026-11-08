@@ -92,7 +92,9 @@ python3 tools/runtime.py prepare \
 python3 tools/runtime.py run --runtime "$VRCHAT_RUNTIME_DIR"
 ```
 
-The runtime uses the original `start_protected_game.exe`. Log in normally when the game prompts. Keep the launcher running until the game exits; Ctrl-C stops only this runtime's processes. Logs and the generated test profile live under the runtime directory. If initialization fails, inspect its `state/` logs before preparing a fresh output directory.
+The runtime uses the original `start_protected_game.exe`. Start it with the command above; the generated `.app` is its Wine host. Log in normally when the game prompts. Keep the launcher running until the game exits; Ctrl-C stops only this runtime's processes. Logs and the generated test profile live under the runtime directory. If initialization fails, inspect its `state/` logs before preparing a fresh output directory.
+
+The prefix disables Wine's `CursorClippingLocksWindows` option for VRChat so mouse capture does not lock window movement and resizing. Resolution remains controlled by the game and window size.
 
 An optional `--proxy http://127.0.0.1:PORT` on `run` supplies the startup HTTP(S) proxy. Photon room traffic uses the system's UDP route. The launcher does not alter network settings.
 
