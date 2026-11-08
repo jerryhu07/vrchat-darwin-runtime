@@ -32,9 +32,12 @@ def main(args):
         if not isinstance(profile[name], str) or not Path(profile[name]).is_absolute():
             raise SystemExit(f'{name} must be an absolute path in the profile')
     profile['VRCHAT_ROOTFS'] = str(args.rootfs.resolve())
-    names = subprocess.check_output(['/bin/ps', '-axo', 'ucomm='], text=True).lower().splitlines()
-    if not args.compile_only and any(name.strip() in ['wine', 'wine64', 'wineserver', 'vrchat', 'vrchat.exe', 'launch.exe', 'wine-host'] or 'wine-elf-host' in name for name in names):
-        raise SystemExit('Close the current Wine/game session before running the shared-client controls')
+    if not args.compile_only:
+        try:
+            subprocess.run([str(Path(profile['REGRESSION_WINE_BUILD']) / 'server/wineserver'), '-w'],
+                           env={**os.environ, 'WINEPREFIX': profile['REGRESSION_PREFIX']}, check=True, timeout=1)
+        except subprocess.TimeoutExpired:
+            raise SystemExit('Close the session using the selected test prefix before running controls') from None
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     profile.pop('REGRESSION_MEMORY_DIAGNOSTIC', None)
@@ -65,7 +68,14 @@ def main(args):
         run([llvm / 'llvm-objcopy', '--only-section=.text.' + operation, '-O', 'binary', atomic, binary])
         arrays.append('static const unsigned char owned_' + operation + '[]={' +
                       ','.join(hex(value) for value in binary.read_bytes()) + '};')
-    (output / 'atomic-contention.h').write_text('\n'.join(arrays) + '\n')
+    obj, binary = output / 'pe-export.o', output / 'pe-export.bin'
+    run([llvm / 'clang', '--target=x86_64-linux-gnu', '-O2', '-ffreestanding', '-fno-stack-protector',
+         '-c', FIXTURES / 'pe-export.c', '-o', obj])
+    for operation in ['pe_export', 'pe_notify']:
+        run([llvm / 'llvm-objcopy', '--only-section=.text.' + operation, '-O', 'binary', obj, binary])
+        arrays.append('static const unsigned char owned_' + operation + '[]={' +
+                      ','.join(hex(value) for value in binary.read_bytes()) + '};')
+    (output / 'owned-code.h').write_text('\n'.join(arrays) + '\n')
     from importlib.util import module_from_spec, spec_from_file_location
     spec = spec_from_file_location('platform_build', ROOT / 'tools/build-platform.py')
     platform_build = module_from_spec(spec)
@@ -105,9 +115,11 @@ def main(args):
             continue
         log_path = output / (source.stem + '.log')
         arguments = [] if is_flags else case[1]
+        # The PE reader exercises mappings made before Wine starts, as in protected entry.
+        case_env = {**env, 'REGRESSION_NATIVE_ELF_EXEC_GATE': '1'} if arguments == ['pe-unaligned-read'] else env
         with log_path.open('w') as log:
             process = subprocess.Popen([profile['REGRESSION_WINE_FRONTEND'], str(executable), *arguments],
-                                       cwd=output, env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+                                       cwd=output, env=case_env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
             try:
                 try:
                     code = process.wait(timeout=90)

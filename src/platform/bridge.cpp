@@ -1704,7 +1704,7 @@ static int32_t query_root_memory(uint64_t address, uint64_t *out) {
   } unlocked;
   return read(address, out);
 }
-static int64_t maps_snapshot(int pid = getpid()) {
+static int64_t maps_snapshot(int pid = getpid(), bool wine_calls = true) {
   if (pid != getpid() && !accessible_process(pid))
     return -13;
   const char *directory = getenv("REGRESSION_LINUX_SYSCALL_TMPDIR");
@@ -1796,9 +1796,9 @@ static int64_t maps_snapshot(int pid = getpid()) {
       snprintf(filename, sizeof(filename), "%s", backing.prp_vip.vip_path);
     // Wine maps PE images through temporary section files. Query the actual
     // section object's name rather than exposing the implementation temp name.
-    if (pid == getpid() && (!*filename || strstr(filename, "/tmpmap-"))) {
-      // The ELF worker is not a Wine thread. Wine's server call needs the
-      // per-thread TEB; use the real Darwin backing name when it is absent.
+    if (wine_calls && pid == getpid() && (!*filename || strstr(filename, "/tmpmap-"))) {
+      // Only initialized Wine callers may query the TEB. Before __wine_main,
+      // Wine's pthread key is not initialized and can belong to another library.
       using teb_query = void *(*)();
       static const auto current = reinterpret_cast<teb_query>(wine_unix_symbol("NtCurrentTeb"));
       const bool wine_thread = current && current();
@@ -1862,7 +1862,7 @@ static int64_t maps_snapshot(int pid = getpid()) {
       break;
     address += size;
   }
-  if (fli_env_enabled("REGRESSION_DIAG_MAP_PROTECTIONS") && pid == getpid()) {
+  if (wine_calls && fli_env_enabled("REGRESSION_DIAG_MAP_PROTECTIONS") && pid == getpid()) {
     using query = int32_t (*)(void *, const void *, uint32_t, void *, size_t, size_t *);
     auto basic = reinterpret_cast<query>(wine_unix_symbol("NtQueryVirtualMemory"));
     struct basic_info {
@@ -2234,7 +2234,7 @@ extern "C" __attribute__((visibility("default"))) int32_t fli_linux_root_open_pr
   int64_t result = kind == 0                      ? comm_snapshot(pid)
                    : kind == 1                    ? cmdline_snapshot(pid)
                    : kind == 2                    ? status_snapshot(pid)
-                   : kind == 3                    ? maps_snapshot(pid)
+                   : kind == 3                    ? maps_snapshot(pid, false)
                    : kind == 4 && pid == getpid() ? proc_directory_snapshot()
                                                   : -95;
   if (result < 0)
@@ -2748,7 +2748,7 @@ static int64_t read_linux_directory(int fd, uint64_t address, uint64_t capacity)
   return int64_t(used);
 }
 static int64_t native_ptrace_request(uint64_t a, uint64_t b, uint64_t c, uint64_t d) {
-  int64_t result = -ENOSYS;
+  int64_t result = linux_error(ENOSYS);
   if (a == 0 && ForkChild) {
     int status = ptrace(PT_TRACE_ME, 0, nullptr, 0);
     result = status < 0 ? linux_error(errno) : status;

@@ -44,6 +44,10 @@
       {
         "path": "patches/fex-arm64ec/0001-d18340e.patch",
         "sha256": "97354dcc2b310102ab082ea3b4ad8c2e6fe31c8ca7f8e412298f30db5553466b"
+      },
+      {
+        "path": "patches/fex-common/0001-check-executable-range-without-overflow.patch",
+        "sha256": "4dbb59c74c5d074d834c1f5cfd66be17403b93181bfbc9b9cfae7b921dcf0db1"
       }
     ],
     "patched_files": {
@@ -57,7 +61,7 @@
       "FEXCore/Source/Interface/Core/CodeCache.cpp": "f50bd1726756f0de0dae953f7b8a00b469ccf2644252f0c67835cd50bbea0641",
       "FEXCore/Source/Interface/Core/Core.cpp": "c9d834386a81fa8a4212ffac41d803abfaccdeb736c3854c4aadb93a3fdde4c0",
       "FEXCore/Source/Interface/Core/Dispatcher/Dispatcher.cpp": "d85651049ca94c96e61b9bb9fef5519903292f8ae04ddb9729c9f1d460c0a3e2",
-      "FEXCore/Source/Interface/Core/Frontend.cpp": "0ce7803ab061220bc80abb4fd566c26378b2e3da268274c8ca01af4eb90037d0",
+      "FEXCore/Source/Interface/Core/Frontend.cpp": "889f17dbd312d0de6e3bb1ec49ec5bf137188ec2cf7fcbeffa29012d4c443526",
       "FEXCore/Source/Interface/Core/JIT/BranchOps.cpp": "f44b60d2d0437fdc74bc768a691025bb7a609f6725f14084548d22f18fe663df",
       "FEXCore/Source/Interface/Core/JIT/DebugData.h": "d5d04b731fae0b2df0ebc4a449462bb13fb1d1340a52bca09e5c9e6358d0c515",
       "FEXCore/Source/Interface/Core/JIT/JIT.cpp": "b0ff4ee0da1b983e3a0a7d700d6642d25e59634d99e5576f824f40649b2ac4ad",
@@ -149,6 +153,10 @@
       {
         "path": "patches/fex-darwin/0002-translate-non-temporal-vector-addresses.patch",
         "sha256": "9d381df64b73d097415c34e81aa1a03e58653d57e16d5b31d0ad78d2b81e18ce"
+      },
+      {
+        "path": "patches/fex-common/0001-check-executable-range-without-overflow.patch",
+        "sha256": "4dbb59c74c5d074d834c1f5cfd66be17403b93181bfbc9b9cfae7b921dcf0db1"
       }
     ],
     "patched_files": {
@@ -160,7 +168,7 @@
       "FEXCore/Source/Interface/Core/CodeCache.cpp": "380241f9555815ae0ecd32596260dfed59820bbdb414383b1be606cd5e417f11",
       "FEXCore/Source/Interface/Core/Core.cpp": "4432609782e87c05ca2be9dbfcd49e13c862b73a44ce4240052d13d999a58742",
       "FEXCore/Source/Interface/Core/Dispatcher/Dispatcher.cpp": "269e86141922e5bcaaaeacbaa8f98924ece78172efbd71aa1a164c0a72092efb",
-      "FEXCore/Source/Interface/Core/Frontend.cpp": "14343ca2561be969dca9f892401a872a23478659ff80f37edc6aa37ec8a2f981",
+      "FEXCore/Source/Interface/Core/Frontend.cpp": "c573c9fda78e0b1fd7030260237906b2f3f8e9879bfd4439eeadc103ec037c7b",
       "FEXCore/Source/Interface/Core/Frontend.h": "376b35f8e1a4653db8789baf8ab8606c100991baebb2fad0544c599f7a2200c5",
       "FEXCore/Source/Interface/Core/Interpreter/Fallbacks/F80Fallbacks.h": "c2eeb56384507b2e8b68e0afda3a51c7bd7373f35b431850c56f6527447be36b",
       "FEXCore/Source/Interface/Core/JIT/AtomicOps.cpp": "07f81c5b0a7ece52affdd59179bdace16f74c7ed26edf064a645fcd02b1e4b02",
@@ -237,8 +245,7 @@
       "tools/winebuild/spec32.c": "4103c9a26ae74951784f93e741a286aaeaae248207bb8b2273c88465a1af2294",
       "dlls/winemac.drv/window.c": "de635e6aba5ee9a931d84c5ac02599215831d2574cb69298348ed3cea05e0b51",
       "dlls/winemac.drv/cocoa_window.m": "1d2b8b72c2968339a6bec5d6e9f1ab29b52ea3bd4e3ffd91000cf41e20d483aa"
-    },
-    "status": "source port of inherited post-link hooks; runtime regression pending"
+    }
   },
   "dxmt": {
     "url": "https://github.com/3Shain/dxmt.git",
@@ -273,5 +280,12 @@
     },
     "status": "DXMT v0.80 with the existing VKMT Xcode27/ARM64 compatibility patch, matching the provider build recipe; runtime validation pending",
     "provider_source": "VKMT a89dcc9845c8dea89d224187ae60253ed5f8d627 fetch/build-dxmt-arm64ec scripts"
+  },
+  "epoll-shim": {
+    "url": "https://github.com/jiixyj/epoll-shim.git",
+    "commit": "5187f4b51316f61ca78c74db117071607a98069c",
+    "submodules": [],
+    "patches": [],
+    "patched_files": {}
   }
 }

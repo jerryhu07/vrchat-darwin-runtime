@@ -76,7 +76,9 @@ class ReleaseChecks(unittest.TestCase):
             self.skipTest('Set LLVM_BIN and ARM64EC_CLANG for the owned PE TLS check')
         with tempfile.TemporaryDirectory() as directory:
             source, dll = Path(directory) / 'tls.S', Path(directory) / 'tls.dll'
-            source.write_text('.text\n.globl probe\nprobe:\nldr x0, [x18, #88]\nret\n')
+            source.write_text('.text\n.globl probe\nprobe:\nldr x0, [x18, #88]\n'
+                              'add x1, x18, w2, uxtw #3\nstr x18, [x3]\n'
+                              'lsr x9, x18, #16\ncmp x9, x18\nstlxr w0, x18, [x1]\nret\n')
             # A plain AArch64 PE makes the tiny assembly section unambiguous to
             # objdump; an ARM64EC fixture also needs a hybrid code map.
             compiler = str(Path(compiler).with_name('aarch64-w64-mingw32-clang'))
@@ -86,7 +88,7 @@ class ReleaseChecks(unittest.TestCase):
             self.assertNotEqual(hashlib.sha256(before).hexdigest(), hashlib.sha256(dll.read_bytes()).hexdigest())
             output = subprocess.check_output([str(Path(llvm) / 'llvm-objdump'), '-d', str(dll)], text=True)
             self.assertIn('[x28', output)
-            self.assertNotIn('[x18', output)
+            self.assertIsNone(re.search(r'\b[wx]18\b', output))
             changed = dll.read_bytes()
             subprocess.run([sys.executable, str(ROOT / 'tools/fix-x18-tls.py'), str(dll)], check=True)
             self.assertEqual(changed, dll.read_bytes())
@@ -108,24 +110,6 @@ class ReleaseChecks(unittest.TestCase):
             copy = Path(directory) / image.name
             shutil.copy2(image, copy)
             subprocess.run([sys.executable, str(ROOT / 'tools/fix-x18-tls.py'), str(copy)], check=True)
-
-    def test_graphics_stage_rejects_changed_input(self):
-        spec = importlib.util.spec_from_file_location('graphics_stage_test', ROOT / 'tools/stage-graphics.py')
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        lock = json.loads((ROOT / 'graphics.lock.json').read_text())
-        baseline = json.loads((ROOT / 'baseline.json').read_text())
-        for name in ['d3d11', 'd3d10core', 'dxgi', 'winemetal']:
-            self.assertEqual(lock['files'][f'dlls/{name}/aarch64-windows/{name}.dll'],
-                             baseline['components'][name]['sha256'])
-        with tempfile.TemporaryDirectory() as directory:
-            source, output = Path(directory) / 'wine', Path(directory) / 'output'
-            first = source / next(iter(lock['files']))
-            first.parent.mkdir(parents=True)
-            first.write_bytes(b'changed input')
-            with self.assertRaisesRegex(SystemExit, 'missing or changed'):
-                module.stage(source, output)
-            self.assertFalse(output.exists())
 
     def test_wine_metal_helper_exports(self):
         library = ROOT / '.local/build/wine/dlls/winemac.drv/winemac.so'

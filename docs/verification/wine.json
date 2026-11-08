@@ -3,7 +3,7 @@
   "targets": [
     "all"
   ],
-  "scope": "Wine source build; post-link source port still requires runtime regression",
+  "scope": "Wine source build; runtime validation is recorded separately",
   "artifacts": {
     "dlls/ntdll/ntdll.so": "408f956c64f29d1835b13bef7d0ba1e55eb3e454646ace8a196a89ed78673374",
     "dlls/ntdll/aarch64-windows/ntdll.dll": "7ed541d0a3a7ac36553d2f01906d336335d054c9ce85879891117099743cb844",

@@ -1,0 +1,12 @@
+diff --git a/FEXCore/Source/Interface/Core/Frontend.cpp b/FEXCore/Source/Interface/Core/Frontend.cpp
+--- a/FEXCore/Source/Interface/Core/Frontend.cpp
++++ b/FEXCore/Source/Interface/Core/Frontend.cpp
+@@ -91,7 +91,7 @@
+ }
+ 
+ bool Decoder::CheckRangeExecutable(uint64_t Address, uint64_t Size) {
+-  while (Address < ExecutableRangeBase || Address + Size > ExecutableRangeEnd) {
++  while (Address < ExecutableRangeBase || Address >= ExecutableRangeEnd || Size > ExecutableRangeEnd - Address) {
+     auto RangeInfo = CTX->SyscallHandler->QueryGuestExecutableRange(Thread, Address);
+     ExecutableRangeBase = RangeInfo.Base;
+     ExecutableRangeEnd = RangeInfo.Base + RangeInfo.Size;

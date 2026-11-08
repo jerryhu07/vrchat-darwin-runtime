@@ -1,0 +1,132 @@
+{
+  "tests": [
+    {
+      "source": "inline-constants-owner.c",
+      "source_sha256": "cf2d551e479c2040204992a7dff9a18af230af88717290007f575dd2179ad9c0",
+      "result": 6,
+      "passed": true
+    },
+    {
+      "source": "readonly-flags-owner.c",
+      "source_sha256": "4e1cadd7eeac3beb12b1bc30a3c6f338e87401fee10b784664f159d3b78fad60",
+      "result": 6,
+      "passed": true
+    },
+    {
+      "source": "control-flags-owner.c",
+      "source_sha256": "cbd39a29f2190b0dc62d438b4a1b441b72b524af933ff7f9bc42837aab8f5aab",
+      "result": 6,
+      "passed": true
+    },
+    {
+      "source": "exception-flags-traps-owner.c",
+      "source_sha256": "5184d2e76fe43f7cbf1893c5fecf019fb9952f61a19bca1d67cd7e935514287d",
+      "result": 6,
+      "passed": true
+    },
+    {
+      "source": "exception-flags-dedup-owner.c",
+      "source_sha256": "693489cbb922657798d7b9b906bce4a4b01dba3ad62a48d53f274f6c16b1784b",
+      "result": 6,
+      "passed": true
+    },
+    {
+      "source": "rsp-checkpoint-owner.c",
+      "source_sha256": "65f89d25e5868e271dc25ac87d90a910e6f32725a3a257b838372a0fcb9fc22a",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "rsp-recovery-owner.c",
+      "source_sha256": "a18ea95c5c8099c7b0fa1da330b6c21bb907cceed6d609a6ad9fee968c77998e",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "volatile-metadata-owner.c",
+      "source_sha256": "0a8471b522f6bee18ba11d1b3b531a9b6b853470857f24b41e6bf32c9955e90c",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "stack-prologue-owner.c",
+      "source_sha256": "d3f9128ce3b9de7d5de38dd3bfb250c04d840cb9bc54cdebbc5b1bf96f3309f6",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "ret-flags-owner.c",
+      "source_sha256": "2c8d487648bcc44a79f4a9e4c5d74dabb225c866ff13e62eca910ce02b546570",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "ret-fetch-invalidated-owner.c",
+      "source_sha256": "fdeb0fe6cce4b7b2470f3e6b9c7836fd766b86c22690a5df2cc2f17cfaa483fc",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "scalar-fpr-owner.c",
+      "source_sha256": "34360daf87f5650b415414e4e4232fe5cb127d0a0305875f5c590b5c9897febd",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "callret-stress-owner.c",
+      "source_sha256": "eb548d9b311174afca3c5f8e4df9394ec7203ae23414571915e45c56616a7d08",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "jit-callback-lifetime-owner.c",
+      "source_sha256": "8ff69a3b07ea15b4334f855bc728e535fcdb4f251c86ed558404bd7e24c2bd3a",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "callret-async-signal-owner.c",
+      "source_sha256": "a38d3a0e2c69981261423e290a496eee02f56da9dbe0d6740463796a4a5cd3e9",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "memory-owner.c",
+      "source_sha256": "b355649c2ab9b0ce743f9756f8878b9a31e20f459678f2cc2c944a0710f06c96",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "native-nonvolatile-owner.c",
+      "source_sha256": "0cf64b7d7b6e1799a81b2ccc453b20b18a33b1bb6295e58a4249d5a3f97225f8",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "call-flags-owner.c",
+      "source_sha256": "a2527f7fbaa786d422757f7efad0ef371f553399374ed9d6efbe47ceb9908817",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "memory-owner.c",
+      "source_sha256": "b355649c2ab9b0ce743f9756f8878b9a31e20f459678f2cc2c944a0710f06c96",
+      "result": 0,
+      "passed": true
+    },
+    {
+      "source": "memory-owner.c",
+      "source_sha256": "b355649c2ab9b0ce743f9756f8878b9a31e20f459678f2cc2c944a0710f06c96",
+      "result": 0,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "full_x86_exception_fidelity": false,
+  "libc_sha256": "40e82c7fafb0bd25f5dd599b074e26694df2e6081426f3a740ff54126fd739fb",
+  "scope": "Owned Windows programs executed in a newly prepared source runtime and native prefix; online game verification is recorded separately",
+  "cases_manifest": {
+    "path": "tests/runtime-cases.json",
+    "sha256": "3497b08f0bc2f18dbb35b404b182e9d8dabd9942c4d1558ec38732ee4bd14b8a"
+  }
+}

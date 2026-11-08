@@ -1,5 +1,6 @@
 #include "paths.h"
 #include "runtime-env.h"
+#include "generated-abi.h"
 #include "linux-abi.h"
 #include "linux-thread-owner.h"
 constexpr uint64_t LinuxSigBlock = 0, LinuxSigUnblock = 1, LinuxSigSetMask = 2;
@@ -1565,6 +1566,7 @@ struct GuestMemoryFault {
   uint8_t code;
 };
 static GuestMemoryFault DescribeRootMemoryFault(FEXCore::Core::InternalThreadState *, uint64_t, uint32_t);
+static bool RootOwnsNativeFileView(FEXCore::Core::InternalThreadState *, uint64_t);
 static bool ForwardUntracedRootMemoryFault(FEXCore::Core::InternalThreadState *, ucontext_t *,
                                            const GuestMemoryFault &);
 static bool DeliverRootGuestMemorySignal(FEXCore::Core::InternalThreadState *, int, uint64_t, int);
@@ -2243,7 +2245,9 @@ private:
         TranslatedGuestAddress >= ActiveGuestMemoryBase && TranslatedGuestAddress < ActiveGuestMemoryLimit;
     const bool FaultAddressInTranslatedGuest =
         FaultAddressInMappedLowShadow || FaultAddressInMappedHighSparse || FaultAddressInSharedAlias;
-    if (!FaultAddressMissing && !FaultAddressInGuest && !FaultAddressInTranslatedGuest) {
+    const bool FaultAddressInNativeView = BusAlignment && DataAbort && FaultStatus == 0x21 &&
+                                          RootOwnsNativeFileView(Thread, FaultAddress);
+    if (!FaultAddressMissing && !FaultAddressInGuest && !FaultAddressInTranslatedGuest && !FaultAddressInNativeView) {
       if (DarwinGuestTrapHandler::ForwardHostMemoryFault(Thread, Signal, Info, Context))
         return;
       RecordBoundary(Thread, Signal, Info->si_code, ProgramCounter, FaultAddress, HostState);
@@ -6764,7 +6768,9 @@ public:
         const auto Parent = ResolveGuestPath(Slash == 0 ? "/" : Normalized->substr(0, Slash));
         if (!Parent)
           return static_cast<uint64_t>(-EACCES);
-        const std::string Link = *Parent + Normalized->substr(Slash);
+        // A shared mount exposes the backing directory, not its rootfs projection link.
+        const std::string Link =
+            *Normalized == fli_shared_host_root() ? *Normalized : *Parent + Normalized->substr(Slash);
         std::array<char, 4096> Bytes{};
         const ssize_t Count = readlink(Link.c_str(), Bytes.data(), Bytes.size());
         if (Count < 0)
@@ -8819,18 +8825,19 @@ public:
         std::string(path.data()).find(std::string(build) + "/dlls/ntdll/") != 0 ||
         !std::string_view(path.data()).ends_with("/ntdll.dll"))
       return;
-    // Entry RVAs from the retained paired v1072 PE; validate the actual file.
+    // Entries and the file check come from the selected Wine's symbols and CHPE metadata.
     uint32_t opcode = 0;
-    if (pread(fd, &opcode, 4, 0x9e1e8) != 4 || opcode != 0xd10143ff || address < offset)
+    if (pread(fd, &opcode, 4, VRCHAT_WINE_LDR_REGISTER_FILE_OFFSET) != 4 ||
+        opcode != VRCHAT_WINE_LDR_REGISTER_INSTRUCTION || address < offset)
       return;
     const uint64_t base = address - offset, stub = StopAddress + 256;
     const uint8_t code[] = {0x57, 0x56, 0x48, 0x89, 0xcf, 0x48, 0x89, 0xd6, 0x4c, 0x89, 0xc2, 0x4d, 0x89, 0xca,
                             0x4d, 0x89, 0xd8, 0xb8, 0x09, 0xf1, 0,    0,    0x0f, 0x05, 0x5e, 0x5f, 0xc3};
     memcpy(reinterpret_cast<void *>(stub), code, sizeof(code));
-    for (const auto &pair : {std::pair<uint64_t, uint64_t>{0x100430, 0x9e1e8},
-                             {0x9e1e8, 0x9e1e8},
-                             {0x1004c0, 0x9e314},
-                             {0x9e314, 0x9e314}}) {
+    for (const auto &pair : {std::pair<uint64_t, uint64_t>{VRCHAT_WINE_LDR_REGISTER_X64_RVA, VRCHAT_WINE_LDR_REGISTER_RVA},
+                             {VRCHAT_WINE_LDR_REGISTER_RVA, VRCHAT_WINE_LDR_REGISTER_RVA},
+                             {VRCHAT_WINE_LDR_UNREGISTER_X64_RVA, VRCHAT_WINE_LDR_UNREGISTER_RVA},
+                             {VRCHAT_WINE_LDR_UNREGISTER_RVA, VRCHAT_WINE_LDR_UNREGISTER_RVA}}) {
       NativeWindowsApiTargets[base + pair.first] = base + pair.second;
       ForkContext->AddThunkTrampolineIRHandler(base + pair.first, stub);
     }
@@ -9296,6 +9303,11 @@ public:
     return 0;
   }
   void ObserveOwnedGuestThreads();
+  bool OwnsNativeFileView(uint64_t address) const {
+    return std::any_of(NativeFileViews.begin(), NativeFileViews.end(), [&](const auto &view) {
+      return address >= view.address && address - view.address < view.length;
+    });
+  }
   static bool IsRootGuestThread() { return ActiveSignalThread != nullptr; }
   static int QueryCurrentGuestMemory(uint64_t address, uint64_t *out) {
     return ActiveSignalOwner ? ActiveSignalOwner->QueryNativeGuestMemory(address, out) : -38;
@@ -11328,6 +11340,10 @@ static GuestMemoryFault DescribeRootMemoryFault(FEXCore::Core::InternalThreadSta
   auto *owner = static_cast<ProcessSyscallHandler *>(Thread->FrontendPtr);
   return owner ? owner->DescribeMemoryFault(Address, Syndrome) : GuestMemoryFault{Address, 4, uint8_t(SEGV_MAPERR)};
 }
+static bool RootOwnsNativeFileView(FEXCore::Core::InternalThreadState *Thread, uint64_t Address) {
+  auto *owner = static_cast<ProcessSyscallHandler *>(Thread->FrontendPtr);
+  return owner && owner->OwnsNativeFileView(Address);
+}
 static bool ForwardUntracedRootMemoryFault(FEXCore::Core::InternalThreadState *Thread, ucontext_t *Native,
                                            const GuestMemoryFault &Fault) {
   auto *owner = static_cast<ProcessSyscallHandler *>(Thread->FrontendPtr);
@@ -12843,49 +12859,10 @@ extern "C" __attribute__((visibility("default"))) uint64_t fli_glibc_ready(uint6
   return 0;
 }
 extern "C" __attribute__((visibility("default"))) int32_t fli_start_glibc(uint64_t *Result) {
-  std::unique_lock Guard(GlibcLock);
-  if (!GlibcReady) {
-    for (int Signal = 1; Signal < NSIG; ++Signal)
-      sigaction(Signal, nullptr, &WineSignals[Signal]);
-    setenv("REGRESSION_GLIBC_CARRIER", "1", 1);
-    static bool Started;
-    if (!Started) {
-      Started = true;
-      pthread_t Worker;
-      int Error = pthread_create(
-          &Worker, nullptr,
-          +[](void *) -> void * {
-            std::string Directory = (std::string(fli_host_path("VRCHAT_STATE_DIR")) + "/glibc-carrier.XXXXXX");
-            if (!mkdtemp(Directory.data()))
-              return nullptr;
-            std::string Receipt = Directory + "/process-probe.json";
-            {
-              std::ofstream File(Receipt);
-            }
-            std::vector<std::string> Environment{"LD_LIBRARY_PATH=/usr/lib64:/opt/wine-unix"};
-            if (fli_env_enabled("REGRESSION_GLIBC_WINE_ENV")) {
-              for (const char *Name : {"WINEPREFIX", "WINELOADER", "WINESERVER", "SteamAppId", "SteamGameId",
-                                       "PROTON_EAC_RUNTIME", "EAC_LAUNCHERDIR", "LD_DEBUG"}) {
-                if (const char *Value = getenv(Name)) {
-                  Environment.emplace_back(std::string(Name) + "=" + Value);
-                  dprintf(2, "FLI_GLIBC_ENV_INHERIT key=%s\n", Name);
-                }
-              }
-            }
-            dprintf(2, "FLI_GLIBC_CARRIER_START pid=%d directory=%s\n", getpid(), Directory.c_str());
-            int Status = RunRealRootFS(fli_host_path("VRCHAT_ROOTFS"), "/opt/check/glibc-ready-probe", {}, Environment,
-                                       Directory + "/stderr.log", Receipt);
-            dprintf(2, "FLI_GLIBC_CARRIER_ENDED status=%d\n", Status);
-            return nullptr;
-          },
-          nullptr);
-      if (Error)
-        return Error;
-      pthread_detach(Worker);
-    }
-    if (!GlibcChanged.wait_for(Guard, std::chrono::seconds(10), [] { return GlibcReady; }))
-      return ETIMEDOUT;
-  }
+  std::lock_guard Guard(GlibcLock);
+  // wine-host initializes libc through the ELF frontend before entering Wine.
+  if (!GlibcReady)
+    return ENXIO;
   Result[0] = GlibcMap;
   Result[1] = GlibcFS;
   Result[2] = GlibcArena;

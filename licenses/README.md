@@ -6,6 +6,7 @@ third-party material retains its own terms and notices, including within patches
 | Component | Retained license or notice |
 |---|---|
 | FEX and FEXCore | [FEX-LICENSE.txt](FEX-LICENSE.txt) |
+| epoll-shim | [epoll-shim-LICENSE.txt](epoll-shim-LICENSE.txt) |
 | Wine | [Wine-LICENSE.txt](Wine-LICENSE.txt), [Wine-LGPL-2.1.txt](Wine-LGPL-2.1.txt) |
 | Wine Mono | [Wine-Mono-COPYING.txt](Wine-Mono-COPYING.txt) |
 | DXMT | [DXMT-LICENSE.txt](DXMT-LICENSE.txt) |

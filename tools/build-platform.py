@@ -29,6 +29,16 @@ def symbols(path, llvm):
             for row in output.splitlines() if len(row.split()) >= 3 and re.fullmatch('[0-9a-fA-F]+', row.split()[0])}
 
 
+def file_offset(data, rva):
+    pe = struct.unpack_from('<I', data, 60)[0]
+    sections = pe + 24 + struct.unpack_from('<H', data, pe + 20)[0]
+    for index in range(struct.unpack_from('<H', data, pe + 6)[0]):
+        _, start, size, offset = struct.unpack_from('<IIII', data, sections + index * 40 + 8)
+        if start <= rva < start + size:
+            return offset + rva - start
+    raise ValueError(f'No file-backed PE section for RVA {rva:#x}')
+
+
 def build(args):
     source = ROOT / 'src/platform'
     inputs = source_inventory(source)
@@ -58,13 +68,26 @@ def build(args):
         'REGRESSION_FEX_GUEST_BRANCH_RVA': fs.get('RegressionGuestBranchTrace', 0),
         'REGRESSION_FEX_CPUID_OBSERVATION_RVA': fs.get('RegressionCpuidObservation', 0),
     }
+    metadata = subprocess.check_output([str(args.llvm / 'llvm-readobj'), '--coff-load-config', str(wine)], text=True)
+    redirects = {(int(a, 16), int(b, 16)) for a, b in re.findall(r'(0x[0-9A-Fa-f]+) -> (0x[0-9A-Fa-f]+)', metadata)}
+    for name, suffix in [('LdrRegisterDllNotification', 'REGISTER'), ('LdrUnregisterDllNotification', 'UNREGISTER')]:
+        native = ws['#' + name]
+        entries = {entry for entry, target in redirects if target == native}
+        if len(entries) != 1:
+            raise SystemExit('Expected one ARM64EC redirection for ' + name)
+        definitions['VRCHAT_WINE_LDR_' + suffix + '_RVA'] = native
+        definitions['VRCHAT_WINE_LDR_' + suffix + '_X64_RVA'] = entries.pop()
+    data = wine.read_bytes()
+    offset = file_offset(data, definitions['VRCHAT_WINE_LDR_REGISTER_RVA'])
+    definitions['VRCHAT_WINE_LDR_REGISTER_FILE_OFFSET'] = offset
+    definitions['VRCHAT_WINE_LDR_REGISTER_INSTRUCTION'] = struct.unpack_from('<I', data, offset)[0]
     (output / 'generated-abi.h').write_text('#pragma once\n' + ''.join(f'#define {k} {v:#x}\n' for k, v in definitions.items()))
     common = ['clang++', '-std=c++20', '-dynamiclib', '-arch', 'arm64', '-O2', '-g',
               '-ffixed-x18', '-ffixed-x28', '-fvisibility=hidden', '-I' + str(source)]
     run([*common, '-I' + str(output), '-Wno-deprecated-declarations', '-Wno-trigraphs',
          '-framework', 'IOKit', '-framework', 'CoreFoundation', source / 'bridge.cpp', '-o', output / 'linux-bridge.so'])
     run([*common, source / 'jit-service.cpp', '-o', output / 'jit-service.so'])
-    run(['clang', '-Wall', '-Wextra', '-Werror', '-O2', '-g', source / 'wine-host.c', '-o', output / 'wine-host'])
+    run(['clang', '-arch', 'arm64', '-Wall', '-Wextra', '-Werror', '-O2', '-g', source / 'wine-host.c', '-o', output / 'wine-host'])
     run([args.toolchain / 'bin/x86_64-w64-mingw32-clang', '-shared', '-O2',
          '-DREGRESSION_ELF_THREAD_CONTEXT=1', '-I' + str(source),
          source / 'elf-transport.c', source / 'elf-sysv-call.S', '-o', output / 'elf-transport.dll'])
@@ -74,7 +97,7 @@ def build(args):
     fmt = subprocess.check_output(['pkg-config', '--cflags', '--libs', 'fmt'], text=True).split()
     headers = ['FEXCore/include', 'FEXCore/Source', 'FEXHeaderUtils', 'CodeEmitter',
                'External/unordered_dense/include', 'Source/Tools/CommonTools', 'Source/Tools']
-    run([*common, '-Wall', '-Wextra', '-Werror', '-Wno-unused-parameter', '-Wno-sign-compare',
+    run([*common, '-I' + str(output), '-Wall', '-Wextra', '-Werror', '-Wno-unused-parameter', '-Wno-sign-compare',
          '-DREGRESSION_FEXCORE_GUEST_MEMORY_BIAS=1', '-DARCHITECTURE_arm64=1',
          '-I' + str(source / 'compat'), '-I' + str(include),
          *['-I' + str(fex / p) for p in headers], *fmt, source / 'elf-carrier.cpp',

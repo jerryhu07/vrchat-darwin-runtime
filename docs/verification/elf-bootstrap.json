@@ -1,5 +1,5 @@
 {
   "source_sha256": "3b45c36586f786ea4bf6204ad62932997e2a9409d4d1cea652bb05348c96fcc6",
   "artifact_sha256": "9f8be10418764d3f4b96f8f8b2ab260ad56082ba0bd48406dd33265f1ac30643",
-  "scope": "Standard ELF link completed; guest bootstrap runtime validation pending"
+  "scope": "Standard ELF link completed; runtime validation is recorded separately"
 }

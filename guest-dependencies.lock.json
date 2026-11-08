@@ -96,9 +96,206 @@
         "manifest_id": "2323543246978012070",
         "relative_path": "files/bin/wine"
       }
+    },
+    "etc/ssl/certs/ca-certificates.crt": {
+      "sha256": "427c064216761a1e72a8b30f0d954d08cb6e4435a82091fb865afd20c8497285",
+      "url": "https://curl.se/ca/cacert-2026-11-05.pem",
+      "license": "MPL-2.0"
     }
   },
   "glibc_version": "2.42",
-  "scope": "Verified public inputs: 13 debuginfod executables, Debian libc6 librt, and two frontend members from the pinned official Proton depot.",
-  "wine_frontend_origin": "Both frontend files are byte-identical to the pinned official Proton 11.0-1 Steam depot. opt/wine-devel/bin/wine is Proton files/bin/wine, at the path used by the startup executor."
+  "scope": "Pinned GNU/ELF inputs, complete official Proton Wine, Ubuntu startup libraries/fonts and official Proton EAC runtime. Game files and prefixes are not included.",
+  "wine_frontend_origin": "Both frontend files are byte-identical to the pinned official Proton 11.0-1 Steam depot. opt/wine-devel/bin/wine is Proton files/bin/wine, at the path used by the startup executor.",
+  "startup_packages": [
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/f/fontconfig/fontconfig-config_2.15.0-1.1ubuntu2_amd64.deb",
+      "sha256": "9df0579cd298a1f2b7a40efd519c849745aecd193a09733cf4d1032284a62bbf"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/f/fonts-dejavu/fonts-dejavu-core_2.37-8_all.deb",
+      "sha256": "40049660c194f3b8a2541fc7369efebb10e9f94bdac836a2f38fafedd10fa73a"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/f/fonts-dejavu/fonts-dejavu-mono_2.37-8_all.deb",
+      "sha256": "8a599d6553307db7ecb795d2f0e5a301e03234afc75c7358b0ba43466454c89a"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/g/gcc-14/gcc-14-base_14.2.0-4ubuntu2~24.04.1_amd64.deb",
+      "sha256": "b95c172411a7fdae70307cf33a9f5320ba5e056b556454543dd5b679d5ce1c4f"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/b/brotli/libbrotli1_1.1.0-2build2_amd64.deb",
+      "sha256": "74492419b8fda803774b8c9acef6afc5d2f9ff31782635aae212906adae7b277"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libb/libbsd/libbsd0_0.12.1-1build1.1_amd64.deb",
+      "sha256": "f3857b0863ac5cfd4263e9bf6cfb1d4be88d5321e4070d5bc2b62b0949e6c86f"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/b/bzip2/libbz2-1.0_1.0.8-5.1ubuntu0.1_amd64.deb",
+      "sha256": "36ee08b00b1ee5018b2fce02881b7d2d73c9b4e32990bde3388400d86c48126a"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/e/expat/libexpat1_2.6.1-2ubuntu0.6_amd64.deb",
+      "sha256": "494b8e672f722130c6bca6a7bc4cc31a43ca891a31d60d868bfdd699a3c20b13"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libf/libffi/libffi8_3.4.6-1build1_amd64.deb",
+      "sha256": "637e6a7744de08cd331a41f4efd0d24e6ea9064843dea9d1c6ca87bdb5f038a2"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/f/fontconfig/libfontconfig1_2.15.0-1.1ubuntu2_amd64.deb",
+      "sha256": "a2bc05cfef021fdb84285036f98eda5ebec3c4b7a378f5aa2bdba5c4d3d8d586"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/f/freetype/libfreetype6_2.13.2+dfsg-1ubuntu0.2_amd64.deb",
+      "sha256": "8c6d3bac5a6197fa2f48b2d56f04f3ffecaa7082eeab91b0939f97a40adc88a6"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/g/gmp/libgmp10_6.3.0+dfsg-2ubuntu6.1_amd64.deb",
+      "sha256": "285f8a505dfa8e1b33f357a9d8d3477ad35bf18c0b34771a6df4c25923f3ae0d"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/g/gnutls28/libgnutls30t64_3.8.3-1.1ubuntu3.6_amd64.deb",
+      "sha256": "b8944756260c5ea6b7fac019745f931f905aa7a4df0763676b1b25c911b692e2"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/n/nettle/libhogweed6t64_3.9.1-2.2build1.1_amd64.deb",
+      "sha256": "a9b5f7e9d49ba9060e1c933567046fbc6feab6096799cbf550b7214dc9b0f49b"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/i/icu/libicu74_74.2-1ubuntu3.1_amd64.deb",
+      "sha256": "c9a70989678660eed9a1e904c74fa043da8bec8e2036856fc16e31ced79b04f8"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libi/libidn2/libidn2-0_2.3.7-2build1.1_amd64.deb",
+      "sha256": "46bfd10df095a23b65f58115de47a547c9a2d14627749bd0423ae78c14be77d3"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/x/xz-utils/liblzma5_5.6.1+really5.4.5-1ubuntu0.3_amd64.deb",
+      "sha256": "d2eabd41ca77d2c2dd9d5d4ef478cccb64ffde6279c47cf4699a857d46785a52"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libm/libmd/libmd0_1.1.0-2build1.1_amd64.deb",
+      "sha256": "e5ba01d3c41f256aaf57ec59aa0554857162e3e7f97cdfbff1ed2c0e8d720ee7"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/n/nettle/libnettle8t64_3.9.1-2.2build1.1_amd64.deb",
+      "sha256": "6d97fbc1972633083f08f51ccab433606c97bbceb897c631c66495117ca3406f"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/p/p11-kit/libp11-kit0_0.25.3-4ubuntu2.2_amd64.deb",
+      "sha256": "e7c58aeac19d89f5f1492dfaa52b8623bcd56edc40983f5243ad56d94f477bf2"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libp/libpng1.6/libpng16-16t64_1.6.43-5ubuntu0.7_amd64.deb",
+      "sha256": "863d6abb089b2820ceba98e6b18f06eaacc55f9b05827001e7b4021a9a7b246c"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/g/gcc-14/libstdc++6_14.2.0-4ubuntu2~24.04.1_amd64.deb",
+      "sha256": "a51f8de7829211db961a31f02158058ad1a95f92ac6d0a5dff6350e2821c54c0"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libt/libtasn1-6/libtasn1-6_4.19.0-3ubuntu0.24.04.2_amd64.deb",
+      "sha256": "f82c9ad142f952ea523bda5bfca7bb0802af3a50b8c0f0dd9ec18cdfa104bde7"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libu/libunistring/libunistring5_1.1-2build1.1_amd64.deb",
+      "sha256": "203d7657b5f54633fba1a9c9b784d556ef83c9f6787b3185ba55a88e07b865a3"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libx11/libx11-6_1.8.7-1build1_amd64.deb",
+      "sha256": "397f84347476a3c5786b39f3ff6f0f82866eb3d8be6d2ad3efeadf019efe5b80"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libx11/libx11-data_1.8.7-1build1_all.deb",
+      "sha256": "9ae01f7747e7f479394c697c55acf11d3baf139e8e54b7c4adfb55ef9c50de08"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxau/libxau6_1.0.9-1build6_amd64.deb",
+      "sha256": "e40d29f1d1a62393bacaedebe0da3d9006084152a9f7e5e029293f08ce1c5c80"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxcb/libxcb1_1.15-1ubuntu2_amd64.deb",
+      "sha256": "e1c6611d11ad7398326f1bf028afc34c3b14c51d917a3426b966ed4b9687fa58"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxcomposite/libxcomposite1_0.4.5-1build3_amd64.deb",
+      "sha256": "a12d5d9ae70b798cbbf284080eae32b87367561fc9c24492f641b8860ac0f308"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxcursor/libxcursor1_1.2.1-1build1_amd64.deb",
+      "sha256": "1a4beee621454e42fe0d2f4e1633611126e43d891f0aec28e4a06744f6e9f04d"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxdmcp/libxdmcp6_1.1.3-0ubuntu6_amd64.deb",
+      "sha256": "bcd336fce11ce2a45f34d0f95e6980af22529f22147e8f98c156e5cee8ee42bb"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxext/libxext6_1.3.4-1build2_amd64.deb",
+      "sha256": "45783969a9ece9d7b7b733b8c60981584c53c6bc5ee3b42d295d2f80d1285679"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxfixes/libxfixes3_6.0.0-2build1_amd64.deb",
+      "sha256": "0ee1015cccd063249e01c0cd0bf45f513c8ac9a1e5e485070c12e69192455e4a"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxi/libxi6_1.8.1-1build1_amd64.deb",
+      "sha256": "0ea7acb5e8a8ce4d6653b30e03a319bfe136db7bfb5ee7cad34c2aa1272ea8d9"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxinerama/libxinerama1_1.1.4-3build1_amd64.deb",
+      "sha256": "c8c93a3efdbb06e314f41bf48af4ca3652e4a3826bab5b9e00887660e619f239"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxkbcommon/libxkbcommon0_1.6.0-1build1_amd64.deb",
+      "sha256": "2b9caeb423efb540296a1cb20b872cc630c23908407ecb5c1c787a617622d664"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxkbcommon/libxkbregistry0_1.6.0-1build1_amd64.deb",
+      "sha256": "6911037a581872628eadcffdd3c0771db35fdce7bae7fc23b637623bf8a8f136"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3ubuntu3.10_amd64.deb",
+      "sha256": "c5a065f85c1e6f605741e365e40cad71c3ceb0e85e2791400bd35b8896e12ad1"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxrandr/libxrandr2_1.5.2-2build1_amd64.deb",
+      "sha256": "f2955a5e594f5724b58ad241d9231ea191cb36574a0d5e5ca6b661cd41d6256d"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxrender/libxrender1_0.9.10-1.1build1_amd64.deb",
+      "sha256": "d70bd831aebe8d4834b5dd2ed98df26dd6bd27f1042c47543bd7f66df1ae22ea"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libx/libxxf86vm/libxxf86vm1_1.1.4-1build4_amd64.deb",
+      "sha256": "48b2799f52b86505d2bc91dcb1bfa6536545635b9849cb693d274d934116a8da"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/x/xkeyboard-config/xkb-data_2.41-2ubuntu1.1_all.deb",
+      "sha256": "e99f2a0b4c56cdf35dec489e56b6a8418826cab8ce6306ec6d0bd98e2cd0014a"
+    },
+    {
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/z/zlib/zlib1g_1.3.dfsg-3.1ubuntu2.2_amd64.deb",
+      "sha256": "84b9cf5752b29c9f92c27cd4c4ba9bbcc70b5ccf9b1b515421a28ae23212e273"
+    }
+  ],
+  "proton": {
+    "version": "11.0-1",
+    "app_id": 4628710,
+    "depot_id": 4628711,
+    "manifest_id": "2323543246978012070",
+    "files_tree_sha256": "878573c9a703b571d355d363b1fc23174143e9f08fa39c906d4b06fe2bf3abbe"
+  },
+  "eac": {
+    "app_id": 1826330,
+    "files": {
+      "v2/lib32/easyanticheat_x86.dll": "7a19573910e775dab97def92d7bea97125534a8c56b1849bf64e0224782125bb",
+      "v2/lib32/easyanticheat_x86.so": "c61646ca21bb33d0b738c8d86a540c8bdc7026d7027b069e5e9fcd80a20efc1a",
+      "v2/lib64/easyanticheat.dll": "f5e4d53a6bb6a8c7bfc051c3046dad586dd6b7840ca89db8dd4998227e25a8c2",
+      "v2/lib64/easyanticheat.so": "66a443682ad1b40c9b5df027953d357ab514430f27f9cf615a2825c16fa420c2",
+      "v2/lib64/easyanticheat_x64.dll": "f5e4d53a6bb6a8c7bfc051c3046dad586dd6b7840ca89db8dd4998227e25a8c2",
+      "v2/lib64/easyanticheat_x64.so": "66a443682ad1b40c9b5df027953d357ab514430f27f9cf615a2825c16fa420c2"
+    }
+  }
 }

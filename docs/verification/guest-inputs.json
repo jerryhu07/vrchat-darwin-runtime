@@ -1,9 +1,9 @@
 {
   "source_lock": {
     "path": "guest-dependencies.lock.json",
-    "sha256": "57045176d3b26d705fd295325c64ec95452ad57d9067a14ae2f9cfc6e42cd9b5"
+    "sha256": "f5e13cddc5b15ac02eaf1504d1fc290da2a5542659dac871a9526a8968a1ddd3"
   },
-  "scope": "Pinned guest inputs; no game/EAC files or Wine prefix staged",
+  "scope": "Public startup inputs and official Proton EAC runtime; no game files or Wine prefix staged",
   "runtime_validated": false,
   "external_proton_inputs": [
     "opt/regression-wine-entry/wine64",

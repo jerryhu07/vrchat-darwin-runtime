@@ -93,6 +93,20 @@
       "call-flags-owner.c",
       [],
       "CALL_FLAGS_RESULT seen=1024 expected=1024 core_bad=0 stack_bad=0"
+    ],
+    [
+      "memory-owner.c",
+      [
+        "pe-unaligned-read"
+      ],
+      "PE_UNALIGNED_RESULT 5/5"
+    ],
+    [
+      "memory-owner.c",
+      [
+        "shared-mount"
+      ],
+      "SHARED_MOUNT_RESULT 3/3"
     ]
   ]
 }

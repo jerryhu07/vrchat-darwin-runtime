@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-08",
+  "game_version": "2026.4.1p1",
+  "host": {
+    "cpu": "Apple M4 Pro",
+    "macos": "27.0.1",
+    "build": "26A434"
+  },
+  "scope": "Prepared from an empty output directory using sources and locked public inputs. Owned checks ran in a new prefix; online verification reused login state from another prefix created by the same preparation flow.",
+  "result": {
+    "launcher_code": 301,
+    "native_handoff": true,
+    "anti_cheat_session": true,
+    "room_joined": true,
+    "world_entry": true
+  },
+  "native_dependency_audit": {
+    "native_files": 77,
+    "external_dependencies": [],
+    "external_rpaths": []
+  },
+  "runtime_artifacts": {
+    "wine/dlls/ntdll/aarch64-windows/ntdll.dll": "7ed541d0a3a7ac36553d2f01906d336335d054c9ce85879891117099743cb844",
+    "wine/dlls/ntdll/ntdll.so": "60557ecf11cebe182cb8c711c01c5078ade457e4f9a985ebe44d0dafdc07dc30",
+    "wine/dlls/xtajit64/aarch64-windows/xtajit64.dll": "36e44eb3c87d8f4693605945cf4810a635ce0b909b594e56b0b7259ace4133a1",
+    "platform/linux-carrier.so": "77f4330131bf8f29b39ba02f4881957b8a6eef34aa319f14658878666b7b88b5",
+    "platform/linux-bridge.so": "691593de1b0d65e4b807685b3e2c40324bb71e7e5ab63a62ec9514a67134c33b",
+    "platform/elf-transport.dll": "86376b33533f0595f05511d96573781d330d2653289483d9e83f69d60bc477ba",
+    "platform/libFEXCore.dylib": "da0bc3c69f4a62aa118abac22366e0118cf645310dcfc28d1e472a8796e03ae7",
+    "platform/fli-fexcore-process-probe": "c06a202cd96069d45c1603eb0e7fca63cb43dd24f0a62a6742b8ba4933100c01",
+    "native-rootfs/opt/regression-wine-entry/ntdll.so": "9f8be10418764d3f4b96f8f8b2ab260ad56082ba0bd48406dd33265f1ac30643"
+  },
+  "input_locks": {
+    "sources.lock.json": "9495282ebd3cd56f53bc3d899b2853b30f494f81165334a561f5fe1f987f6e86",
+    "toolchain.lock.json": "de47712f6c9bae4759630ae1aa1996090011a5b176940c78c61ea4eeb721066a",
+    "graphics.lock.json": "b7f6b998f3162c6ebe69c0797e3ccb2a3498620389f388cf71b5f420905de766",
+    "guest-dependencies.lock.json": "f5e13cddc5b15ac02eaf1504d1fc290da2a5542659dac871a9526a8968a1ddd3"
+  },
+  "fresh_assembly": {
+    "linux_wineboot_completed": true,
+    "native_theme_bytes": 7667712,
+    "owned_checks_in_fresh_prefix": 20
+  },
+  "game_files_sha256": {
+    "VRChat.exe": "cfc423f9c2196de600433ffc7fe9d425240f0d14536b265f80e5036c3f08712f",
+    "UnityPlayer.dll": "bb9774b31c5b4e7aed3f901662163da1157b76fe911edd02b63cda845ae90599",
+    "GameAssembly.dll": "52181b297288ae990b29ba26a098721af144ed4aa9b519b4c318155f1b7afeef",
+    "launch.exe": "67180abe67586836b28bb8bbd41736f9fc8364d1f5ad1603baa0d8a15fd36527",
+    "start_protected_game.exe": "46d2552552ac95c436389a2c9f1aba6fda37ab998acf9b9ee026f3262dd70c53",
+    "VRChat_Data/il2cpp_data/Metadata/global-metadata.dat": "f2dd0031946c94ce5b97e53cdcaa91db16c160a789e792c6fc2f0fd61e3c3e42",
+    "EasyAntiCheat/Settings.json": "560d5e9475a18a980139eb97d0202763b543c66e87e966530745c4c07e0cfe2b",
+    "EasyAntiCheat/Certificates/base.bin": "1e6839b40784dc38ada364e5fae9e5072e4828206071a8ef7167a4e40b0742ad",
+    "EasyAntiCheat/Certificates/base.cer": "7da26390c06625966ee16b24aa5de404b0f6f8466f6efcf94b5edccec80d8a2a",
+    "EasyAntiCheat/Certificates/runtime.conf": "4666e2cedcb2360d992f9a787afdcf60bdaf6c4a6cfd88ed91ecc0fc77a80548"
+  },
+  "namespace_audit": {
+    "game_symlinks": 0,
+    "prototype_runtime_links": 0,
+    "prototype_mapped_files": 0
+  }
+}

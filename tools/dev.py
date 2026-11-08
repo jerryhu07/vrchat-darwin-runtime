@@ -69,7 +69,10 @@ def repository(url, commit, name):
     cache = LOCAL / 'git' / name
     if not cache.exists():
         run(['git', 'init', '--bare', cache])
-    run(['git', '--git-dir=' + str(cache), 'fetch', '--depth=1', url, commit])
+    present = subprocess.run(['git', '--git-dir=' + str(cache), 'cat-file', '-e', commit + '^{commit}'],
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0
+    if not present:
+        run(['git', '--git-dir=' + str(cache), 'fetch', '--depth=1', url, commit])
     return cache
 
 
@@ -127,6 +130,20 @@ def build(args):
         return build_wine(args, source, exported['files'])
     if args.component == 'dxmt':
         return build_dxmt(args, source, exported['files'])
+    if args.component == 'epoll-shim':
+        output, prefix = LOCAL / 'build/epoll-shim', LOCAL / 'deps/epoll-shim'
+        run(['/usr/bin/arch', '-arm64', 'cmake', '-S', source, '-B', output,
+             '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_OSX_ARCHITECTURES=arm64',
+             '-DBUILD_TESTING=OFF', '-DCMAKE_INSTALL_PREFIX=' + str(prefix)])
+        run(['cmake', '--build', output, '-j', args.jobs])
+        run(['cmake', '--install', output])
+        if source_inventory(source) != exported['files']:
+            raise SystemExit('epoll-shim sources changed during the build')
+        artifact = prefix / 'lib/libepoll-shim.0.dylib'
+        (LOCAL / 'epoll-shim-build.json').write_text(json.dumps({
+            'source_lock': source_lock(), 'artifact': str(artifact.relative_to(ROOT)),
+            'sha256': sha(artifact)}, indent=2) + '\n')
+        return
     own_sources = jit_sources() if args.component == 'fex-arm64ec' else {}
     output = LOCAL / 'build' / args.component
     env = dict(os.environ)
@@ -208,7 +225,7 @@ def build_wine(args, source, expected_files):
         raise SystemExit('Wine sources changed during the build')
     artifacts = ['dlls/ntdll/ntdll.so', 'dlls/ntdll/aarch64-windows/ntdll.dll', 'server/wineserver']
     receipt = {'component': 'wine', 'source_lock': source_lock(), 'targets': args.target or ['all'],
-               'scope': 'Wine source build; post-link source port still requires runtime regression',
+               'scope': 'Wine source build; runtime validation is recorded separately',
                'artifacts': {p: sha(output / p) for p in artifacts if (output / p).is_file()}}
     (LOCAL / 'wine-build.json').write_text(json.dumps(receipt, indent=2) + '\n')
 

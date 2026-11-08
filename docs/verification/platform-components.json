@@ -1,11 +1,11 @@
 {
   "scope": "Platform components built against explicitly selected Wine/FEX artifacts; their runtime validation is separate",
   "source_files": {
-    "bridge.cpp": "79ad13a1e0ece5cc17f1fb8e034db39086cf1a4b2e63ea522cd7313916aaf565",
+    "bridge.cpp": "3937a14d14cb0b98597bc30238d81a4077f3d0c68e17d26c03b0302a35eaa94a",
     "compat/elf.h": "42499bd2814b0a681380a1920adda5c63b0ee4356b79c0ae2a2cfd87dfe721e9",
     "compat/linux/limits.h": "0d9d2b4c43fc9a2537523fef25b5914341973bfc90cfb957ec48d1cd21eb94da",
     "cwd-service.h": "2390f21a6bdca9f474b9d66037f4018e0ac16020bb5ffb025ef845b7f348b22d",
-    "elf-carrier.cpp": "a7894db6e745e14c2c6195672a538c6072ae52aa8754afcbd2728b10bc998e33",
+    "elf-carrier.cpp": "00e1e77ba57ab8e346b9351206a209af0a4b765e362b28179adcc060817fdbbe",
     "elf-entry.S": "3b45c36586f786ea4bf6204ad62932997e2a9409d4d1cea652bb05348c96fcc6",
     "elf-sysv-call.S": "8cd055135f8e6ffcc70e7bc2bd5f6af5f85d93c25b12a364e03716e54b67a44f",
     "elf-transport.c": "9aed4e6381b3e41ee59d85a5ef77604fd629e082d579f3cc645756c6b7cb8ff2",
@@ -28,9 +28,9 @@
     "sleep-service.h": "ffc2787da858816adcaf6f9ad7c2f16cddc4b882aa8ec521c50a6c9fbcd0c9fa",
     "wine-host.c": "528bd7d891216fb267da1cf43b9869be4ec37bdb9aaf172de28dcccfeb16d1b9"
   },
-  "darwin_fex_sha256": "64e52224e843c01481f3faba245d1d386abb10bfb456087462f578f99b59240b",
+  "darwin_fex_sha256": "4956d5844eadd514fded08b348b7ae9c3c459a9cf673ee2a1e5c0a620d407c32",
   "wine_ntdll_sha256": "7ed541d0a3a7ac36553d2f01906d336335d054c9ce85879891117099743cb844",
-  "fex_sha256": "a18b177cefb93dbb40040612078e4108f6103c7727f07c3276dce9a99fd00df3",
+  "fex_sha256": "36e44eb3c87d8f4693605945cf4810a635ce0b909b594e56b0b7259ace4133a1",
   "definitions": {
     "VRCHAT_WINE_UNIX_DISPATCH_RVA": 1446848,
     "VRCHAT_FEX_MEMORY_DISPATCH_RVA": 31868,
@@ -42,21 +42,27 @@
     "REGRESSION_WINE_NOTIFY_PROTECT_RVA": 1469896,
     "REGRESSION_WINE_CONTEXT_RVA": 828632,
     "REGRESSION_FEX_RESET_RVA": 16956,
-    "REGRESSION_FEX_UNALIGNED_RVA": 1055432,
+    "REGRESSION_FEX_UNALIGNED_RVA": 1055488,
     "REGRESSION_FEX_CALLRET_RVA": 16668,
     "REGRESSION_FEX_GUEST_BRANCH_RVA": 3807376,
-    "REGRESSION_FEX_CPUID_OBSERVATION_RVA": 3806824
+    "REGRESSION_FEX_CPUID_OBSERVATION_RVA": 3806824,
+    "VRCHAT_WINE_LDR_REGISTER_RVA": 652796,
+    "VRCHAT_WINE_LDR_REGISTER_X64_RVA": 1049648,
+    "VRCHAT_WINE_LDR_UNREGISTER_RVA": 653100,
+    "VRCHAT_WINE_LDR_UNREGISTER_X64_RVA": 1049792,
+    "VRCHAT_WINE_LDR_REGISTER_FILE_OFFSET": 652796,
+    "VRCHAT_WINE_LDR_REGISTER_INSTRUCTION": 3506521087
   },
   "artifacts": {
-    "linux-bridge.so": "d65f03eb7a6510647116914014e6bc9b252bd963ee3d8c4b5f6caff042554ac9",
-    "jit-service.so": "e1a6dd9454c3d5ac9045c012c31ad19f5740d3e6f993759205d64b32c69d6aee",
-    "wine-host": "1b3f0de4a524bb4e349de4afc0bbc6f9a8338003b688934534aabb7c15c05a05",
-    "elf-transport.dll": "464140730436fd87ce10fa3b4c88363daf495c07af25e7b9f86d039bf25ab751",
-    "linux-carrier.so": "4188d602f165def1b923f1b0a4f17c17076784136bc70494def5cdfb9db80a7d",
-    "fli-fexcore-process-probe": "64ca9f505a3629f467c343fa2444b2b900d98fd3cba1a8c86d1480f0a0522015"
+    "linux-bridge.so": "2ebf7d9a1d77466f2f2ec9bd77e35742099b5b0cb6331eeb70242acfb900b911",
+    "jit-service.so": "cc2016318db778203158e0fd80ee20a16b65f4a2249039b14ab99fdcb0d6871d",
+    "wine-host": "cf839f08d37cc65185e86fc84d850f30dbdb1f59342d14e322a7f6c07cc1f036",
+    "elf-transport.dll": "86376b33533f0595f05511d96573781d330d2653289483d9e83f69d60bc477ba",
+    "linux-carrier.so": "174165cb02403c38072b5df5887a9cf867e5a5af3d1610025d102a6052420252",
+    "fli-fexcore-process-probe": "feaede483cbc493a98b3510fac86774e4ca4c2e829e16834e17d5d23492d423c"
   },
   "startup_sources": {
     "debug.entitlements": "0bf01625990691c227551c42c03d17b69959df94b51cb2f66c97bf28d1379001",
-    "root.cpp": "b1082e935c1c8bb2e46e1a1367f6a4a6826b93a024005dc55ec4b5bf4f332f7e"
+    "root.cpp": "c0a1e091e5571486dec38df65696a0be11b3a44c0b64fe71926a4d5f0ad3dff7"
   }
 }

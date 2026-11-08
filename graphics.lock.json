@@ -1,31 +1,35 @@
 {
-  "baseline": "d18340e115e7c77a90a481c9efeca94448845f9c",
-  "policy": "Reuse accepted prebuilt graphics; source rebuilding is optional maintenance.",
+  "policy": "Extract the public provider archive, then apply the documented x18-to-x28 TLS rewrite. Runtime pairing is validated separately.",
   "provider": {
-    "repository": "https://github.com/metalsharp/VKMT-Wine",
+    "repository": "https://github.com/metalsharp/MetalSharp-Wine",
     "tag": "VKMT-1.0",
     "archive": "MetalSharp-Wine-Runtime-COMPLETE-all-arch-2026-07-31.tar.zst",
     "archive_sha256": "5d0652cd89d9d9bf2d6f1d44e57cae9037ff5b16f4f29209fc40a15aa7905848",
-    "scope": "Inherited provider identity; the accepted per-file selection below is authoritative, not a claim that every DLL is identical to the archive."
+    "url_prefix": "https://github.com/metalsharp/MetalSharp-Wine/releases/download/VKMT-1.0/"
   },
-  "tls": "The accepted d3d11 and dxgi already use x28 TLS (3 and 2 rewritten sites). Do not recompile or replace them during staging.",
+  "tls": "Run fix-x18-tls.py on the four PE DLLs. d3d11 has 3 rewrites, dxgi has 2; the other two have none.",
   "files": {
     "dlls/d3d11/aarch64-windows/d3d11.dll": "78b3c025fad248e7b336c8d53562128ea8676bcba9a0bbef830206d4e8c2b0d5",
-    "dlls/d3d10core/aarch64-windows/d3d10core.dll": "9561721184744480024dfa2d2db64bacf2c680bbad20776465ddcd6980fd1cec",
+    "dlls/d3d10core/aarch64-windows/d3d10core.dll": "c041f6874f1964d4ec4174bd45f12b0c9f734862cebce2b871100c899d678372",
     "dlls/dxgi/aarch64-windows/dxgi.dll": "292d3cf8ced1add00196f60ea8dc070e902dbb3cebea33baff4d5bc50cd0e5d8",
     "dlls/winemetal/aarch64-windows/winemetal.dll": "1a6090d798b0f8f770c868ee23d1729c1541bb5eaa86b29dedf838a39cade3fd",
     "dlls/winemetal/winemetal.so": "91bbdf3bc0de7455a4d6bfc30a014bbb969fed11c1c7776ce4f23b50c2040ada",
-    "dlls/winemetal/libunwind.1.dylib": "98f99a226129d22f5bf19e23dce54c3dd81461ea1ffb8d7112223a9f584cebbe"
-  },
-  "accepted_wine_pair": {
-    "dlls/ntdll/ntdll.so": "fcfe9a699dd504c2aa3db813181bf10fa4814f2aedcdb821fc4ef3a2f4e0dafc",
-    "dlls/winemac.drv/winemac.so": "72660804f2c88d57f0bd9b2202be630dd941520403eb0a97c29c0397622c3059",
-    "dlls/win32u/win32u.so": "44619832794042c1e17b92c8ddaeb999ccb07117a3ef5182afae6b8f05d7dbf4"
+    "dlls/winemetal/libunwind.1.dylib": "98f99a226129d22f5bf19e23dce54c3dd81461ea1ffb8d7112223a9f584cebbe",
+    "dlls/winevulkan/libMoltenVK.dylib": "8249d81ebf2d46f82b16ca166c2e5cca5d76d91d0a412cd6d3db1aaa6e8430bf"
   },
   "native_dependencies": [
     "@rpath/winemac.so",
     "@rpath/ntdll.so",
     "@loader_path/libunwind.1.dylib"
   ],
-  "pairing": "Use the selected Wine winemac/ntdll implementations. Never copy provider Wine DLLs over the runtime. A rebuilt Wine pair needs its own runtime regression."
+  "pairing": "Requires the Wine Metal helper exports in patches/wine/0003-export-existing-metal-helpers.patch.",
+  "archive_members": {
+    "dlls/d3d11/aarch64-windows/d3d11.dll": "wine/build-ec/dxmt-v0.80/aarch64-windows/d3d11.dll",
+    "dlls/d3d10core/aarch64-windows/d3d10core.dll": "wine/build-ec/dlls/d3d10core/aarch64-windows/d3d10core.dll",
+    "dlls/dxgi/aarch64-windows/dxgi.dll": "wine/build-ec/dxmt-v0.80/aarch64-windows/dxgi.dll",
+    "dlls/winemetal/aarch64-windows/winemetal.dll": "wine/build-ec/dxmt-v0.80/aarch64-windows/winemetal.dll",
+    "dlls/winemetal/winemetal.so": "wine/build-ec/dxmt-v0.80/aarch64-unix/winemetal.so",
+    "dlls/winemetal/libunwind.1.dylib": "wine/build-ec/dxmt-v0.80/aarch64-unix/libunwind.1.dylib",
+    "dlls/winevulkan/libMoltenVK.dylib": "graphics/vkd3d-proton-macos-v1.0/libMoltenVK.dylib"
+  }
 }

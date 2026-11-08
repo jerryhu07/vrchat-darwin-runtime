@@ -12909,8 +12909,6 @@ int RunRealRootFS(const std::string &RootFS, std::string_view GuestProgram, std:
       (UnsupportedSeen || SyscallHandler.ExitSeen || SyscallHandler.PostSessionSyscallDiagnosticLimitSeen);
   const bool GuestSignalBoundarySeen = RawGuestSignalBoundarySeen && !ControlledStopSignalSeen;
   const bool Completed = SyscallHandler.ExitSeen && SyscallHandler.ExitCode == 0;
-  const bool BoundarySeen = UnsupportedSeen || SyscallHandler.ExitSeen || GuestSignalBoundarySeen ||
-                            SyscallHandler.PostSessionSyscallDiagnosticLimitSeen;
   Context->DestroyThread(Thread);
   SyscallHandler.FinalizeOwnedVirtualVForkProcesses();
 
@@ -12965,7 +12963,7 @@ int RunRealRootFS(const std::string &RootFS, std::string_view GuestProgram, std:
                 << ",\"host_pc\":" << GuestSignalBoundaryProgramCounter
                 << ",\"fault_host_address\":" << HostGuestSignalBoundaryFaultAddress << ",\"diagnostic_limit_seen\":"
                 << (SyscallHandler.PostSessionSyscallDiagnosticLimitSeen ? "true" : "false") << "}\n";
-  return BoundarySeen ? 0 : 70;
+  return SyscallHandler.ExitSeen ? static_cast<int>(SyscallHandler.ExitCode & 0xff) : 70;
 }
 } // namespace
 

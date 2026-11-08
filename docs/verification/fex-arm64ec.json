@@ -2,10 +2,10 @@
   "component": "fex-arm64ec",
   "source_lock": {
     "path": "sources.lock.json",
-    "sha256": "0ccec1b3a6ed2535eb2963bc0fa3c2ed4104dcff18caf6b4738da8d63467f09b"
+    "sha256": "4c24ab689a2865b920af9a490b357e184ceb1e010da5397776f80f8f7a40515b"
   },
   "artifact": ".local/build/fex-arm64ec/Bin/libarm64ecfex.dll",
-  "sha256": "a18b177cefb93dbb40040612078e4108f6103c7727f07c3276dce9a99fd00df3",
+  "sha256": "36e44eb3c87d8f4693605945cf4810a635ce0b909b594e56b0b7259ace4133a1",
   "project_sources": {
     "jit/alias-fetch.cpp": "b752751769a80e0b40f85b9003deaba16fbc56e70ee8642b6f9e33bc74d85d5f",
     "jit/jit-writable-alias.h": "5c11c061c8fbb90244049db7b9b587930f5e670407f8463dd502a02ab103ca0b",

@@ -25,5 +25,5 @@ if __name__ == '__main__':
                     '-L' + str(args.rootfs.resolve() / 'usr/lib64'), '-l:libc.so.6', '-o', str(library)], check=True)
     receipt = {'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
                'artifact_sha256': hashlib.sha256(library.read_bytes()).hexdigest(),
-               'scope': 'Standard ELF link completed; guest bootstrap runtime validation pending'}
+               'scope': 'Standard ELF link completed; runtime validation is recorded separately'}
     (output / 'build.json').write_text(json.dumps(receipt, indent=2) + '\n')

@@ -1,5 +1,5 @@
 {
-  "tests": 9,
+  "tests": 8,
   "passed": true,
   "skipped": 0,
   "scope": "Source/build-tool checks only; no Wine or game runtime executed",
@@ -12,7 +12,6 @@
     "TLS rewrite and idempotence",
     "ordinal-only ARM64X exports",
     "Wine Metal helper exports",
-    "graphics staging rejects mismatched inputs",
     "shared internet socket ABI and startup extensions over loopback"
   ]
 }

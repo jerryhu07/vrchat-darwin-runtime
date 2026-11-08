@@ -15,6 +15,8 @@ flowchart LR
 
 `src/platform/elf-carrier.cpp` runs ELF code inside the native Wine process, provides Linux ABI support, and handles thread handoff. The carrier and the startup executor have separate lifecycles and share Linux ABI, network conversion, and file identity code. `runtime-abi.h` defines the PE/Unix call numbers and request layouts.
 
+The shared game directory behaves as a mount in both Linux views. In particular, `readlink` at its root observes the backing directory, not the projection symlink used to assemble the RootFS. This keeps ordinary `realpath` resolution from looping at the mount boundary.
+
 | Component | Responsibility |
 |---|---|
 | Wine | Windows objects, handles, NT memory, and windows |

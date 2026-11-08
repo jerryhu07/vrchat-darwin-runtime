@@ -1,10 +1,11 @@
 #include <windows.h>
 #include <winternl.h>
 #include <stdint.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 #include "memory-owner-peer.h"
-#include "atomic-contention.h"
+#include "owned-code.h"
 typedef int64_t (*Gate)(uint64_t,uint64_t,uint64_t,uint64_t,uint64_t,uint64_t,uint64_t);
 typedef LONG(WINAPI *Query)(HANDLE,const void*,unsigned,void*,SIZE_T,SIZE_T*);
 typedef LONG(WINAPI *Unix)(uint64_t,unsigned,void*);
@@ -14,6 +15,9 @@ static int64_t path_call(Gate gate,Unix dispatch,uint64_t handle,unsigned root,u
   LONG status=dispatch(handle,21,&r);return status?status:r.result;
 }
 static unsigned passed,total;
+static void CALLBACK owned_dll_notification(ULONG reason,const void *data,void *context) {
+  (void)reason;(void)data;(void)context;
+}
 __attribute__((noinline)) static uint64_t owned_bad_read(void){return *(volatile uint64_t*)(uintptr_t)0x28;}
 static volatile uint64_t own_expected_sp,own_observed_sp,own_fault_pc;
 static volatile uint64_t own_resume_pc,own_observed_return;
@@ -43,6 +47,60 @@ int main(int argc,char **argv) {
   FliMemoryPeer state={0};LONG status=(*dispatch)(handles[1],0,&state);
   printf("MEMORY_OWNER initialize=%lx address=%llx\n",status,(unsigned long long)state.address);if(status)return 14;
   const uint64_t address=state.address;write_code(address,1234);
+  if(argc>1 && !strcmp(argv[1],"shared-mount")) {
+    char *path=(char*)(uintptr_t)(address+4096),*buffer=(char*)(uintptr_t)(address+8192);
+    DWORD length=GetEnvironmentVariableA("REGRESSION_FLI_SHARED_HOST_ROOT",path,4096);
+    if(!length || length>=4096)return 88;
+    for(unsigned root=0;root<2;++root) {
+      int64_t plain=path_call(gate,*dispatch,handles[1],root,89,(uintptr_t)path,(uintptr_t)buffer,4096,0);
+      printf("SHARED_MOUNT owner=%u readlink=%lld\n",root,(long long)plain);
+      check("mount-root-is-a-directory",plain==-22);
+      if(root)check("mount-root-at-is-a-directory",
+        path_call(gate,*dispatch,handles[1],root,267,(uint64_t)-100,(uintptr_t)path,(uintptr_t)buffer,4096)==-22);
+    }
+    (*dispatch)(handles[1],3,&state);VirtualFree(code,0,MEM_RELEASE);
+    printf("SHARED_MOUNT_RESULT %u/%u\n",passed,total);return passed==total?0:1;
+  }
+  if(argc>1 && !strcmp(argv[1],"pe-unaligned-read")) {
+    const IMAGE_DOS_HEADER *dos=(const IMAGE_DOS_HEADER*)n;
+    const IMAGE_NT_HEADERS64 *pe=(const void*)((const char*)n+dos->e_lfanew);
+    const char *exports=(const char*)n+pe->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+    const char *field=exports+offsetof(IMAGE_EXPORT_DIRECTORY,AddressOfNameOrdinals);
+    if(!((uintptr_t)field&3))++field;
+    uint32_t expected;memcpy(&expected,field,sizeof(expected));
+    MEMORY_BASIC_INFORMATION before,after;
+    if(!VirtualQuery(field,&before,sizeof(before)))return 82;
+    const unsigned char load[]={0x8b,0x07,0xc3}; /* mov eax,[rdi]; ret */
+    memcpy((void*)(uintptr_t)address,load,sizeof(load));
+    if(gate(10,address,4096,5,0,0,0))return 83;
+    state.address=(uintptr_t)field;state.length=0;state.protection=0;
+    status=(*dispatch)(handles[1],12,&state);
+    printf("PE_UNALIGNED status=%lx result=%llx expected=%lx\n",status,(unsigned long long)state.result,(unsigned long)expected);
+    check("root-reads-unaligned-pe-data",!status && state.result==expected);
+    check("pe-protection-preserved",VirtualQuery(field,&after,sizeof(after)) && before.Protect==after.Protect);
+    if(gate(10,address,4096,3,0,0,0))return 84;
+    memcpy((void*)(uintptr_t)address,owned_pe_export,sizeof(owned_pe_export));
+    if(gate(10,address,4096,5,0,0,0))return 85;
+    const char *symbols[]={"LdrRegisterDllNotification","LdrUnregisterDllNotification"};
+    for(unsigned i=0;i<2;++i) {
+      state.address=(uintptr_t)n;state.length=(uintptr_t)symbols[i];
+      status=(*dispatch)(handles[1],12,&state);
+      uintptr_t expected_export=(uintptr_t)GetProcAddress(n,symbols[i]);
+      printf("PE_EXPORT name=%s root=%llx wine=%llx\n",symbols[i],(unsigned long long)state.result,(unsigned long long)expected_export);
+      check("root-resolves-wine-export",!status && expected_export && state.result==expected_export);
+    }
+    if(gate(10,address,4096,3,0,0,0))return 86;
+    memcpy((void*)(uintptr_t)address,owned_pe_notify,sizeof(owned_pe_notify));
+    if(gate(10,address,4096,5,0,0,0))return 87;
+    uint64_t functions[]={(uintptr_t)GetProcAddress(n,symbols[0]),(uintptr_t)GetProcAddress(n,symbols[1]),(uintptr_t)owned_dll_notification};
+    memcpy((void*)(uintptr_t)(address+4096),functions,sizeof(functions));
+    state.address=address+4096;state.protection=(uintptr_t)NtCurrentTeb();
+    status=(*dispatch)(handles[1],9,&state);
+    printf("PE_NOTIFY status=%lx result=%llx\n",status,(unsigned long long)state.result);
+    check("root-registers-and-unregisters-dll-notification",!status && !state.result);
+    (*dispatch)(handles[1],3,&state);VirtualFree(code,0,MEM_RELEASE);
+    printf("PE_UNALIGNED_RESULT %u/%u\n",passed,total);return passed==total?0:1;
+  }
   if(argc>1 && !strcmp(argv[1],"path-bounds")) {
     const uint64_t edge=address+32768,buffer=address+4096;
     if(gate(10,edge,16384,0,0,0,0))return 70;

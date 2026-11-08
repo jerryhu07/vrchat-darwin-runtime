@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Use an Apple Silicon Mac with the macOS SDK, Python 3.9 or later, CMake, GNU Make, pkg-config, Flex, Bison 3 or later, and fmt 12.x with pkg-config and CMake metadata. Building Wine also requires the freetype, fontconfig, GnuTLS, and MoltenVK development dependencies.
+Use an Apple Silicon Mac with the macOS SDK, Python 3.9 or later, CMake, GNU Make, pkg-config, Flex, Bison 3 or later, and fmt 12.x with pkg-config and CMake metadata. Building Wine also requires the freetype, fontconfig, GnuTLS, and MoltenVK development dependencies. Install zstd for the public graphics archive and [XQuartz](https://www.xquartz.org/) for the Linux startup display. Allow roughly 40 GB for sources, builds, runtime, and two new prefixes, in addition to the game. The assembler, objdump, and objcopy from the pinned llvm-mingw toolchains are used for the TEB register adaptation.
 
 The build uses two upstream llvm-mingw distributions.
 
@@ -23,20 +23,33 @@ The script writes to `.local/toolchain` and builds from pinned mingw-w64 and LLV
 python3 tools/dev.py fetch --component fex-arm64ec
 python3 tools/dev.py fetch --component fex-darwin
 python3 tools/dev.py fetch --component wine
+python3 tools/dev.py fetch --component epoll-shim
 ```
 
 For offline use, pass `--local-repository /path/to/repository` to export the pinned commit from an existing Git checkout. The fetch step verifies patch hashes and the resulting files. Use a fresh source directory when fetching again.
 
 The Wine patches export eight existing Metal helpers. The source lock also records the inputs for the optional DXMT build.
 
+## Stage the graphics
+
+This downloads the four parts of the public VKMT 1.0 archive, checks the reassembled archive, extracts the graphics inputs, and adapts their TEB references.
+
+```sh
+python3 tools/stage-graphics.py --llvm .local/wine-toolchain/bin \
+  --output .local/graphics
+```
+
+For an existing copy of that public archive, add `--archive /path/to/MetalSharp-Wine-Runtime-COMPLETE-all-arch-2026-07-31.tar.zst`. The same hash check applies.
+
 ## Build the components
 
 ```sh
 python3 tools/dev.py build --component fex-arm64ec --toolchain "$PWD/.local/toolchain"
 python3 tools/dev.py build --component fex-darwin
+python3 tools/dev.py build --component epoll-shim
 ```
 
-For Wine, point `VRCHAT_BISON` at a Bison 3 or later executable and `VRCHAT_MOLTENVK_LIB` at the published `libMoltenVK.dylib`.
+For Wine, point `VRCHAT_BISON` at a Bison 3 or later executable and `VRCHAT_MOLTENVK_LIB` at `.local/graphics/dlls/winevulkan/libMoltenVK.dylib` from the verified public archive.
 
 ```sh
 python3 tools/dev.py build --component wine \
@@ -44,52 +57,46 @@ python3 tools/dev.py build --component wine \
   --bison "$VRCHAT_BISON" --moltenvk-lib "$VRCHAT_MOLTENVK_LIB" --jobs 2
 ```
 
-The Wine build runs configure and Make under the system ARM64 shell, including when Python is running under Rosetta. It gives Autoconf a relative path to the MoltenVK library. For a partial build, pass `--target` once for each target, such as `dlls/ntdll/ntdll.so`, `dlls/ntdll/aarch64-windows/ntdll.dll`, and `server/wineserver`.
+The Wine build runs configure and Make under the system ARM64 shell, including when Python is running under Rosetta. It gives Autoconf a relative path to the MoltenVK library. For development, pass `--target` once for each selected target. Runtime assembly requires the complete build, including resource modules such as `aero.msstyles`.
 
 ```sh
 python3 tools/build-platform.py \
   --wine-build .local/build/wine \
   --fex .local/build/fex-arm64ec/Bin/libarm64ecfex.dll \
-  --toolchain .local/wine-toolchain --llvm .local/wine-toolchain/bin
+  --toolchain .local/wine-toolchain --llvm .local/wine-toolchain/bin \
+  --epoll-prefix .local/deps/epoll-shim
 ```
 
 The platform build derives its ABI header from the selected DLL symbol tables and records the Wine, FEX, and bridge hashes. Rebuild and verify the pairing after changing any of those components.
 
-## Stage the Linux guest inputs
+## Prepare the game inputs
 
-`guest-dependencies.lock.json` pins 16 GNU and ELF inputs. Thirteen come from public debuginfod servers, `librt.so.1` comes from Debian's `libc6_2.41-12+deb13u4_amd64.deb`, and two Wine frontend files come from the official Proton 11.0-1 depot. To obtain the pinned depot in Steam, run `download_depot 4628710 4628711 2323543246978012070` in the Steam console.
+Supply an unmodified official VRChat Windows installation, official Proton 11.0-1, and the Proton EasyAntiCheat Runtime from Steam. Each user supplies their own game installation and account; the repository does not distribute them.
 
-```sh
-python3 tools/fetch-guest.py --output "$VRCHAT_ROOTFS" --proton "$PROTON_DIR"
-```
+`guest-dependencies.lock.json` pins the Proton depot (`download_depot 4628710 4628711 2323543246978012070` in Steam's console), the complete `files/` tree, EAC runtime members, GNU libraries, Ubuntu startup packages, and Mozilla CA certificates. Set `PROTON_DIR` to the downloaded Proton directory and `PROTON_EAC_DIR` to the official Proton EasyAntiCheat Runtime directory (Steam app 1826330). The preparer rejects inputs with different hashes.
 
-The script checks the hashes, stages the files in a new RootFS, and writes local user, DNS, and gconv configuration. It installs Proton's `files/bin/wine` as `/opt/wine-devel/bin/wine`, the path expected by the startup executor.
+## Assemble and launch
 
-Build the small ELF module that forwards Wine startup using the supplied assembly and an ELF linker.
+Choose an empty output path outside the game directory. `prepare` copies the built runtime components and their native libraries, downloads the pinned guest packages, creates the game mappings, and initializes separate, empty native and Linux Wine prefixes.
 
 ```sh
-python3 tools/build-elf-entry.py --llvm .local/wine-toolchain/bin \
-  --linker .local/toolchain/bin/ld.lld --rootfs "$VRCHAT_ROOTFS"
+python3 tools/runtime.py prepare \
+  --wine-build .local/build/wine \
+  --fex .local/build/fex-arm64ec/Bin/libarm64ecfex.dll \
+  --graphics .local/graphics \
+  --epoll-prefix .local/deps/epoll-shim \
+  --llvm .local/wine-toolchain/bin --linker .local/toolchain/bin/ld.lld \
+  --proton "$PROTON_DIR" --eac "$PROTON_EAC_DIR" \
+  --game "$VRCHAT_GAME_DIR" --output "$VRCHAT_RUNTIME_DIR"
+
+python3 tools/runtime.py run --runtime "$VRCHAT_RUNTIME_DIR"
 ```
 
-Online startup also needs the complete Linux Wine installation, the userspace EAC runtime, private XQuartz authorization, and a shared view of the original game directory. The [baseline record](verification/protected-v1759.json) covers the separately prepared local setup.
+The runtime uses the original `start_protected_game.exe`. Log in normally when the game prompts. Keep the launcher running until the game exits; Ctrl-C stops only this runtime's processes. Logs and the generated test profile live under the runtime directory. If initialization fails, inspect its `state/` logs before preparing a fresh output directory.
 
-## Build the startup executor
+An optional `--proxy http://127.0.0.1:PORT` on `run` supplies the startup HTTP(S) proxy. Photon room traffic uses the system's UDP route. The launcher does not alter network settings.
 
-Add `--epoll-prefix "$EPOLL_PREFIX"` to the `build-platform.py` command. The prefix must provide `include/libepoll-shim` and `lib/libepoll-shim.0.dylib`. The tested version was epoll-shim v0.0.20240608.
-
-This builds `.local/platform/fli-fexcore-process-probe` and the `linux-bridge.so` it loads. The executor uses ad hoc debug signing to trace children running as the same user. See the [platform build record](verification/platform-components.json) for the artifact fingerprints.
-
-## Graphics
-
-The local baseline used pinned DXMT and WineMetal binaries. If you already have the validated Wine build, you can stage its graphics files without the Metal compiler, Meson, or LLVM 15.
-
-```sh
-python3 tools/stage-graphics.py --wine-build "$VRCHAT_ACCEPTED_WINE_BUILD" \
-  --output .local/graphics-accepted
-```
-
-`graphics.lock.json` pins four PE DLLs, native `winemetal.so`, libunwind, and their Wine pairing. The validated `d3d11` and `dxgi` already use x28 for TLS. Use the pinned `d3d10core` and the paired Wine build's ntdll, winemac, and win32u. A newly built Wine still needs runtime testing with these graphics components.
+## Optional DXMT source build
 
 To rebuild DXMT, install Meson 1.3 or later, Ninja, LLVM 15, and a developer toolchain that provides `metal` and `metallib` through `xcrun`.
 
@@ -99,54 +106,27 @@ python3 tools/dev.py build --component dxmt \
   --toolchain "$PWD/.local/toolchain" --llvm-native "$VRCHAT_LLVM15"
 ```
 
-The source uses VKMT's v0.80 Xcode 27 and ARM64 patches for the native helper architecture, Metal intrinsics, and view sizing. The rebuild path is unverified on the test machine. Test the rebuilt artifacts before updating the accepted hashes in `graphics.lock.json`.
+The source uses VKMT's v0.80 Xcode 27 and ARM64 patches for the native helper architecture, Metal intrinsics, and view sizing. The rebuild path is unverified on the test machine. Test the rebuilt artifacts before replacing the public binary inputs in `graphics.lock.json`.
 
 ## Run the checks
 
-`python3 tools/dev.py test` checks source integrity, path ownership, boolean switches, the network ABI, and the graphics inputs. Set `LLVM_BIN` and `ARM64EC_CLANG` to enable the AArch64 PE checks for TLS rewriting and idempotence.
+`python3 tools/dev.py test` checks source integrity, path ownership, boolean switches, the network ABI, and Wine Metal helper exports. Set `LLVM_BIN` and `ARM64EC_CLANG` to enable the AArch64 PE checks for TLS rewriting and idempotence.
 
-`tools/check-runtime.py` compiles and runs the Windows test programs in `tests/runtime-cases.json`. Use `--compile-only` to check compilation. Running the programs requires an assembled and matched native test prefix and an idle Wine session.
+`tools/check-runtime.py` compiles and runs the Windows test programs in `tests/runtime-cases.json`. Use `--compile-only` to check compilation. Running the programs requires an assembled runtime and an idle test prefix. Other Wine prefixes may stay open.
 
-<a id="runtime-profile"></a>
 ### Runtime profile
 
-The profile is a JSON object mapping environment variable names to strings. Use absolute paths. A compilation check only needs `REGRESSION_WINE_BUILD` to read ntdll symbols.
+`prepare` writes `profile.json` with the matched component paths, dedicated prefix, and runtime settings. Run the owned Windows programs with that profile while the runtime is idle:
 
 ```sh
-mkdir -p .local
-python3 - <<'PY'
-import json
-from pathlib import Path
-root = Path.cwd()
-profile = {
-    'REGRESSION_WINE_BUILD': str(root / '.local/build/wine'),
-}
-(root / '.local/owned-profile.json').write_text(json.dumps(profile, indent=2) + '\n')
-PY
-python3 tools/check-runtime.py --compile-only \
-  --profile .local/owned-profile.json --rootfs "$VRCHAT_ROOTFS" \
+python3 tools/check-runtime.py \
+  --profile "$VRCHAT_RUNTIME_DIR/profile.json" \
+  --rootfs "$VRCHAT_RUNTIME_DIR/native-rootfs" \
   --toolchain .local/wine-toolchain --llvm .local/wine-toolchain/bin \
-  --output .local/owned-compile
+  --output "$VRCHAT_RUNTIME_DIR/state/owned-checks"
 ```
 
-Choose a new output directory. The `--rootfs` argument supplies libc symbols and sets `VRCHAT_ROOTFS` for the runtime checks.
-
-For runtime checks, keep the feature settings from your assembled environment and add these paths.
-
-| Field | Value |
-|---|---|
-| `REGRESSION_PREFIX` | Dedicated test prefix with a verified Wine and FEX pairing |
-| `REGRESSION_WINE_FRONTEND` | `wine-host` from the platform build |
-| `VRCHAT_RUNTIME_ROOT` | Host directory containing the runtime components |
-| `VRCHAT_GAME_DIR` | Directory for the test programs, used for path ownership checks |
-| `VRCHAT_STATE_DIR` | Private runtime state directory |
-| `REGRESSION_FLI_CARRIER` | `linux-carrier.so` from the platform build |
-| `REGRESSION_LINUX_BRIDGE_PATH` | `linux-bridge.so` from the same build |
-| `REGRESSION_ELF_TRANSPORT_DLL` | `elf-transport.dll` from the same build |
-
-The runner sets `WINEPREFIX`, `WINEBUILDDIR`, `WINESERVER`, `WINELOADER`, and the test switches. It saves the effective profile as `effective-profile.json` in the output directory. Project boolean switches use `"1"` to enable and `"0"` or an unset value to disable. Paths, numbers, and upstream Wine and FEX variables follow their own formats.
-
-Assembling the complete native test environment from an empty directory remains unverified. The example above prepares the input for compilation checks.
+Choose a new output directory for each run. `--compile-only` skips execution; its profile only needs an absolute `REGRESSION_WINE_BUILD`. Project boolean switches use `"1"` to enable and `"0"` or an unset value to disable. Paths, numbers, and upstream Wine/FEX settings retain their own formats.
 
 ## Archive the source
 
